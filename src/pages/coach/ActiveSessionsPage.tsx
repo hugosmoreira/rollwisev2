@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Plus, Layers, FileText, CheckCircle2 } from 'lucide-react';
+import { Plus, Layers, CheckCircle2 } from 'lucide-react';
 import { Tabs } from '@/components/common/Tabs';
 import { EmptyState } from '@/components/common/EmptyState';
 import { Button } from '@/components/common/Button';
@@ -15,7 +15,6 @@ import shared from './Coach.module.css';
 
 const TABS = [
   { value: 'published', label: 'Published' },
-  { value: 'drafts', label: 'Drafts' },
   { value: 'past', label: 'Past' },
 ];
 
@@ -25,11 +24,6 @@ const EMPTY = {
     title: 'No published sessions',
     description:
       "Publish a session and it'll appear here, where you can manage it and review its bookings.",
-  },
-  drafts: {
-    icon: <FileText size={26} strokeWidth={1.7} />,
-    title: 'No drafts',
-    description: 'Sessions you save without publishing will be kept here as drafts.',
   },
   past: {
     icon: <CheckCircle2 size={26} strokeWidth={1.7} />,

@@ -61,7 +61,9 @@ export function AdminSettingsPage() {
         {/* Platform controls */}
         <section className={shared.panel}>
           <h2 className={styles.panelTitle}>Platform</h2>
-          <p className={styles.panelDesc}>Control how RollWise operates.</p>
+          <p className={styles.panelDesc}>
+            Platform controls — coming soon. These toggles aren't enforced yet.
+          </p>
           <div className={styles.rows}>
             <div className={styles.row}>
               <div className={styles.rowText}>

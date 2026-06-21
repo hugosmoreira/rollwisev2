@@ -62,7 +62,6 @@ export function CoachDashboardPage() {
   );
 
   const allBookings = bookings ?? [];
-  const requests = allBookings.filter((b) => b.status === 'pending');
   const now = new Date();
   const sessionsThisMonth = (sessions ?? []).filter((s) => {
     const d = new Date(s.startsAt);
@@ -111,25 +110,25 @@ export function CoachDashboardPage() {
         <StatCard label="Revenue this month" value={formatCurrency(revenue)} hint="From paid sessions" icon={<Wallet size={20} strokeWidth={1.9} />} />
         <StatCard label="Sessions this month" value={String(sessionsThisMonth)} hint="Published" icon={<CalendarCheck size={20} strokeWidth={1.9} />} />
         <StatCard label="Students trained" value={String((students ?? []).length)} hint="All time" icon={<Users size={20} strokeWidth={1.9} />} />
-        <StatCard label="Booking requests" value={String(requests.length)} hint="Awaiting response" icon={<Inbox size={20} strokeWidth={1.9} />} />
+        <StatCard label="Total bookings" value={String(allBookings.length)} hint="All time" icon={<Inbox size={20} strokeWidth={1.9} />} />
       </section>
 
       <div className={shared.twoCol}>
         <div className={shared.panelStack}>
           <section>
             <SectionHeading
-              title="Booking requests"
+              title="Recent bookings"
               action={<Link to={ROUTES.coach.bookings}>View all {arrow}</Link>}
             />
-            {requests.length === 0 ? (
+            {allBookings.length === 0 ? (
               <EmptyState
                 icon={<Inbox size={26} strokeWidth={1.7} />}
-                title="No booking requests"
-                description="When students book your sessions, their requests will appear here."
+                title="No bookings yet"
+                description="When students book your sessions, they'll appear here."
               />
             ) : (
               <div className={shared.cardGrid} style={{ gridTemplateColumns: '1fr' }}>
-                {requests.slice(0, 4).map((b) => (
+                {allBookings.slice(0, 4).map((b) => (
                   <BookingCard
                     key={b.id}
                     booking={b}

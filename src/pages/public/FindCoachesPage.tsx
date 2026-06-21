@@ -120,7 +120,12 @@ export function FindCoachesPage() {
       ) : (
         <div className={styles.grid}>
           {filtered.map((coach) => (
-            <CoachCard key={coach.id} coach={coach} to={ROUTES.signup} />
+            <CoachCard
+              key={coach.id}
+              coach={coach}
+              to={ROUTES.signup}
+              ctaLabel="Sign up to view"
+            />
           ))}
         </div>
       )}

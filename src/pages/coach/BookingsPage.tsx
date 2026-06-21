@@ -13,7 +13,6 @@ import shared from './Coach.module.css';
 
 const TABS = [
   { value: 'all', label: 'All' },
-  { value: 'pending', label: 'Pending' },
   { value: 'confirmed', label: 'Confirmed' },
   { value: 'completed', label: 'Completed' },
 ];
