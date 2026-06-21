@@ -1,0 +1,105 @@
+/* Shared layout utilities for the student app pages. */
+
+.sections {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(2rem, 4vw, 2.75rem);
+}
+
+.intro {
+  font-size: var(--rw-text-md);
+  line-height: 1.55;
+  color: var(--rw-text-secondary);
+  max-width: 44rem;
+  margin-bottom: var(--rw-space-6);
+}
+
+.statGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: var(--rw-space-4);
+}
+
+.cardGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: var(--rw-space-4);
+}
+
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--rw-space-3);
+}
+
+.toolbar {
+  display: flex;
+  flex-direction: column;
+  gap: var(--rw-space-4);
+  margin-bottom: var(--rw-space-8);
+}
+
+.filters {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: var(--rw-space-3);
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.chip {
+  font-size: var(--rw-text-sm);
+  font-weight: var(--rw-weight-semibold);
+  padding: 0.5rem 0.9375rem;
+  border-radius: var(--rw-radius-pill);
+  border: 1px solid var(--rw-border-stronger);
+  background: var(--rw-fill-1);
+  color: var(--rw-text-secondary);
+  cursor: pointer;
+  transition: all var(--rw-transition-fast);
+}
+.chip:hover {
+  border-color: var(--rw-border-hover);
+  color: var(--rw-text-bright);
+}
+.chipActive {
+  background: var(--rw-primary);
+  color: var(--rw-primary-contrast);
+  border-color: var(--rw-primary);
+}
+.chipActive:hover {
+  color: var(--rw-primary-contrast);
+}
+
+.twoCol {
+  display: grid;
+  grid-template-columns: minmax(0, 1.7fr) minmax(0, 1fr);
+  gap: clamp(1.25rem, 3vw, 2rem);
+  align-items: start;
+}
+
+.panel {
+  background: var(--rw-card-gradient);
+  border: 1px solid var(--rw-border);
+  border-radius: var(--rw-radius-xl);
+  padding: var(--rw-space-6);
+}
+
+.panelStack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--rw-space-5);
+}
+
+.tabsBar {
+  margin-bottom: var(--rw-space-6);
+}
+
+@media (max-width: 900px) {
+  .twoCol {
+    grid-template-columns: 1fr;
+  }
+}

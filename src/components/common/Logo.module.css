@@ -1,0 +1,58 @@
+.logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6875rem;
+  text-decoration: none;
+}
+
+.mark {
+  --_size: 32px;
+  position: relative;
+  width: var(--_size);
+  height: var(--_size);
+  border-radius: 9px;
+  overflow: hidden;
+  /* Constant dark mark — it represents a black belt across both themes. */
+  background: linear-gradient(160deg, #202024, #0e0e10);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 4px 14px -6px rgba(0, 0, 0, 0.8);
+  flex-shrink: 0;
+}
+
+.markStripe {
+  position: absolute;
+  left: 5px;
+  right: 5px;
+  bottom: 8px;
+  height: 5px;
+  border-radius: 1px;
+  background: var(--rw-red);
+  box-shadow: 0 0 10px rgba(224, 45, 60, 0.55);
+}
+
+.wordmark {
+  font-family: var(--rw-font-display);
+  font-weight: var(--rw-weight-bold);
+  font-size: 1.25rem;
+  letter-spacing: var(--rw-tracking-snug);
+  color: var(--rw-text-bright);
+}
+
+/* ---- Sizes ---- */
+.sm .mark {
+  --_size: 28px;
+}
+.sm .wordmark {
+  font-size: 1.125rem;
+}
+.lg .mark {
+  --_size: 38px;
+  border-radius: 11px;
+}
+.lg .wordmark {
+  font-size: 1.5rem;
+}
+
+.markOnly {
+  gap: 0;
+}

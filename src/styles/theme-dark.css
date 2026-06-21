@@ -1,0 +1,71 @@
+/* =================================================================
+   RollWise — Dark Theme (default)
+   -----------------------------------------------------------------
+   Black-belt palette: near-black canvas, charcoal surfaces, white
+   text, red accent. This is the visual source of truth derived
+   directly from the landing page design.
+   ================================================================= */
+
+:root,
+[data-theme='dark'] {
+  color-scheme: dark;
+
+  /* ---- Backgrounds ---- */
+  --rw-bg: #0a0a0b;
+  --rw-bg-subtle: #0c0c0e;          /* alternating sections */
+  --rw-bg-elevated: #101013;
+
+  /* ---- Surfaces (cards) ---- */
+  --rw-surface: #111114;
+  --rw-surface-2: #16161a;
+  --rw-surface-3: #1b1b1f;
+  --rw-surface-hover: #17171b;
+  --rw-surface-input: #101013;
+
+  /* Card gradients used throughout the design */
+  --rw-card-gradient: linear-gradient(180deg, #111114, #0d0d0f);
+  --rw-card-gradient-strong: linear-gradient(170deg, #161619, #101013);
+  --rw-card-gradient-raised: linear-gradient(170deg, #1b1b1f, #141417);
+
+  /* ---- Hairline fills & borders (white alpha in dark) ---- */
+  --rw-fill-1: rgba(255, 255, 255, 0.03);
+  --rw-fill-2: rgba(255, 255, 255, 0.05);
+  --rw-fill-3: rgba(255, 255, 255, 0.08);
+  --rw-border: rgba(255, 255, 255, 0.07);
+  --rw-border-strong: rgba(255, 255, 255, 0.1);
+  --rw-border-stronger: rgba(255, 255, 255, 0.12);
+  --rw-border-hover: rgba(255, 255, 255, 0.18);
+
+  /* ---- Text ---- */
+  --rw-text: #f4f4f3;
+  --rw-text-bright: #ffffff;
+  --rw-text-secondary: #9e9ea4;
+  --rw-text-muted: #7e7e84;
+  --rw-text-faint: #67676d;
+  --rw-text-on-fill: #d0d0d4;
+
+  /* ---- Accent surfaces ---- */
+  --rw-success-bg: rgba(63, 190, 107, 0.1);
+
+  /* ---- Effects ---- */
+  --rw-glow: rgba(224, 45, 60, 0.22);
+  --rw-grid-line: rgba(255, 255, 255, 0.022);
+  --rw-nav-bg: rgba(10, 10, 11, 0.72);
+  --rw-overlay: rgba(6, 6, 8, 0.72);
+  --rw-inset-highlight: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  --rw-belt-base: #0a0a0b;
+
+  /* Gi / belt weave texture (decorative, brand-flavored) */
+  --rw-weave: repeating-linear-gradient(135deg, #242428 0 9px, #1b1b1f 9px 18px);
+  --rw-weave-sm: repeating-linear-gradient(135deg, #232327 0 7px, #1a1a1e 7px 14px);
+
+  /* ---- Shadows ---- */
+  --rw-shadow-sm: 0 4px 14px -6px rgba(0, 0, 0, 0.8);
+  --rw-shadow-card: 0 20px 50px -28px rgba(0, 0, 0, 0.85);
+  --rw-shadow-lg: 0 40px 80px -30px rgba(0, 0, 0, 0.9);
+  --rw-shadow-xl: 0 50px 100px -40px rgba(0, 0, 0, 0.9);
+  --rw-shadow-primary: inset 0 1px 0 rgba(255, 255, 255, 0.2),
+    0 12px 30px -12px rgba(224, 45, 60, 0.85);
+  --rw-shadow-primary-sm: inset 0 1px 0 rgba(255, 255, 255, 0.18),
+    0 8px 22px -10px rgba(224, 45, 60, 0.8);
+}

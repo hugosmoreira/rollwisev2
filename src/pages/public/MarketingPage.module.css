@@ -1,0 +1,135 @@
+.page {
+  padding-block: clamp(2.5rem, 6vw, 4.5rem) clamp(4rem, 8vw, 6rem);
+}
+
+.section {
+  margin-top: clamp(2.5rem, 5vw, 4rem);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: var(--rw-space-4);
+}
+
+.card {
+  background: var(--rw-card-gradient);
+  border: 1px solid var(--rw-border);
+  border-radius: var(--rw-radius-xl);
+  padding: var(--rw-space-6);
+}
+
+.cardIcon {
+  width: 46px;
+  height: 46px;
+  border-radius: var(--rw-radius-lg);
+  background: var(--rw-primary-soft);
+  border: 1px solid var(--rw-primary-soft-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--rw-primary);
+  margin-bottom: var(--rw-space-4);
+}
+
+.cardTitle {
+  font-family: var(--rw-font-display);
+  font-weight: var(--rw-weight-semibold);
+  font-size: var(--rw-text-lg);
+  color: var(--rw-text-bright);
+  margin-bottom: 0.5rem;
+}
+
+.cardText {
+  font-size: 0.9rem;
+  line-height: 1.55;
+  color: var(--rw-text-secondary);
+}
+
+/* ---- Statement band ---- */
+.band {
+  position: relative;
+  overflow: hidden;
+  margin-top: clamp(2.5rem, 5vw, 4rem);
+  border-radius: var(--rw-radius-2xl);
+  border: 1px solid var(--rw-border-strong);
+  background: var(--rw-card-gradient-strong);
+  padding: clamp(2.5rem, 5vw, 4rem) clamp(1.75rem, 4vw, 3rem);
+  text-align: center;
+}
+.bandGlow {
+  position: absolute;
+  top: -120px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 520px;
+  height: 360px;
+  background: radial-gradient(ellipse at center, var(--rw-glow), transparent 65%);
+  pointer-events: none;
+}
+.bandInner {
+  position: relative;
+  max-width: 620px;
+  margin-inline: auto;
+}
+.bandTitle {
+  font-family: var(--rw-font-display);
+  font-weight: var(--rw-weight-bold);
+  font-size: clamp(1.625rem, 3.5vw, 2.25rem);
+  line-height: 1.1;
+  letter-spacing: var(--rw-tracking-snug);
+  color: var(--rw-text-bright);
+  margin-bottom: var(--rw-space-4);
+}
+.bandText {
+  font-size: var(--rw-text-md);
+  line-height: 1.6;
+  color: var(--rw-text-secondary);
+  margin-bottom: var(--rw-space-6);
+}
+.bandActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--rw-space-3);
+  justify-content: center;
+}
+
+/* ---- Checklist (coach page) ---- */
+.split {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: clamp(1.5rem, 4vw, 3rem);
+  align-items: start;
+}
+.checklist {
+  display: flex;
+  flex-direction: column;
+  gap: var(--rw-space-3);
+}
+.checkItem {
+  display: flex;
+  align-items: center;
+  gap: 0.8125rem;
+  font-size: var(--rw-text-md);
+  color: var(--rw-text);
+}
+.checkIcon {
+  width: 24px;
+  height: 24px;
+  border-radius: 7px;
+  background: var(--rw-primary-soft);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: var(--rw-primary);
+}
+
+.sectionTitle {
+  font-family: var(--rw-font-display);
+  font-weight: var(--rw-weight-bold);
+  font-size: var(--rw-text-2xl);
+  color: var(--rw-text-bright);
+  letter-spacing: var(--rw-tracking-snug);
+  margin-bottom: var(--rw-space-5);
+}

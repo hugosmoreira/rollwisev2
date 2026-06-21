@@ -1,0 +1,13 @@
+.back {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  font-size: var(--rw-text-base);
+  font-weight: var(--rw-weight-medium);
+  color: var(--rw-text-secondary);
+  margin-bottom: var(--rw-space-5);
+  transition: color var(--rw-transition-fast);
+}
+.back:hover {
+  color: var(--rw-text-bright);
+}

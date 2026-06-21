@@ -1,0 +1,25 @@
+.toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.625rem;
+  height: 2.625rem;
+  border-radius: var(--rw-radius-md);
+  background: var(--rw-fill-2);
+  border: 1px solid var(--rw-border-stronger);
+  color: var(--rw-text-secondary);
+  cursor: pointer;
+  transition: background-color var(--rw-transition-fast),
+    color var(--rw-transition-fast), border-color var(--rw-transition-fast);
+}
+
+.toggle:hover {
+  background: var(--rw-fill-3);
+  color: var(--rw-text-bright);
+  border-color: var(--rw-border-hover);
+}
+
+.sm {
+  width: 2.25rem;
+  height: 2.25rem;
+}

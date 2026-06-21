@@ -1,0 +1,116 @@
+.header {
+  position: sticky;
+  top: 0;
+  z-index: var(--rw-z-sticky);
+  background: var(--rw-nav-bg);
+  backdrop-filter: blur(16px) saturate(140%);
+  -webkit-backdrop-filter: blur(16px) saturate(140%);
+  border-bottom: 1px solid var(--rw-border);
+}
+
+.bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--rw-space-6);
+  height: var(--rw-nav-height);
+  max-width: var(--rw-container);
+  margin-inline: auto;
+  padding-inline: var(--rw-space-6);
+}
+
+.links {
+  display: flex;
+  align-items: center;
+  gap: 2.125rem;
+}
+
+.link {
+  font-size: var(--rw-text-base);
+  font-weight: var(--rw-weight-medium);
+  color: var(--rw-text-secondary);
+  transition: color var(--rw-transition-fast);
+}
+.link:hover,
+.link.active {
+  color: var(--rw-text-bright);
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 0.875rem;
+}
+
+.loginLink {
+  font-size: var(--rw-text-base);
+  font-weight: var(--rw-weight-semibold);
+  color: var(--rw-text);
+  transition: color var(--rw-transition-fast);
+}
+.loginLink:hover {
+  color: var(--rw-text-bright);
+}
+
+.burger {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 2.625rem;
+  height: 2.625rem;
+  border-radius: var(--rw-radius-md);
+  background: var(--rw-fill-2);
+  border: 1px solid var(--rw-border-stronger);
+  color: var(--rw-text-bright);
+  cursor: pointer;
+}
+
+.mobileMenu {
+  border-top: 1px solid var(--rw-border);
+  padding: var(--rw-space-4) var(--rw-space-6) var(--rw-space-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--rw-space-1);
+  background: var(--rw-bg);
+}
+
+.mobileLink {
+  padding: 0.6875rem 0.5rem;
+  font-size: var(--rw-text-md);
+  font-weight: var(--rw-weight-medium);
+  color: var(--rw-text);
+  border-radius: var(--rw-radius-sm);
+  transition: background-color var(--rw-transition-fast);
+}
+.mobileLink:hover {
+  background: var(--rw-fill-2);
+}
+
+.mobileActions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--rw-space-3);
+  margin-top: var(--rw-space-3);
+}
+
+.mobileToggleRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5rem;
+  font-size: var(--rw-text-base);
+  color: var(--rw-text-secondary);
+}
+
+/* Desktop ↔ mobile switch (matches the design's 880px breakpoint) */
+@media (max-width: 880px) {
+  .links {
+    display: none;
+  }
+  .desktopActions {
+    display: none;
+  }
+  .burger {
+    display: inline-flex;
+  }
+}

@@ -1,0 +1,59 @@
+.page {
+  padding-block: clamp(2.5rem, 6vw, 4.5rem) clamp(4rem, 8vw, 6rem);
+}
+
+.toolbar {
+  display: flex;
+  flex-direction: column;
+  gap: var(--rw-space-4);
+  margin-bottom: var(--rw-space-8);
+}
+
+.searchRow {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--rw-space-3);
+}
+
+.filters {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: var(--rw-space-3);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: var(--rw-space-4);
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.chip {
+  font-family: var(--rw-font-body);
+  font-size: var(--rw-text-sm);
+  font-weight: var(--rw-weight-semibold);
+  padding: 0.5rem 0.9375rem;
+  border-radius: var(--rw-radius-pill);
+  border: 1px solid var(--rw-border-stronger);
+  background: var(--rw-fill-1);
+  color: var(--rw-text-secondary);
+  cursor: pointer;
+  transition: all var(--rw-transition-fast);
+}
+.chip:hover {
+  border-color: var(--rw-border-hover);
+  color: var(--rw-text-bright);
+}
+.chipActive {
+  background: var(--rw-primary);
+  color: var(--rw-primary-contrast);
+  border-color: var(--rw-primary);
+}
+.chipActive:hover {
+  color: var(--rw-primary-contrast);
+}

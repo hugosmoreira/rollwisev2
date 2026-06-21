@@ -1,0 +1,51 @@
+.iconButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: var(--rw-radius-md);
+  background: var(--rw-fill-2);
+  border: 1px solid var(--rw-border-stronger);
+  color: var(--rw-text-secondary);
+  cursor: pointer;
+  transition: background-color var(--rw-transition-fast),
+    color var(--rw-transition-fast);
+}
+.iconButton:hover {
+  background: var(--rw-fill-3);
+  color: var(--rw-text-bright);
+}
+
+.avatarLink {
+  display: inline-flex;
+  border-radius: 50%;
+}
+
+/* ---- Sidebar account footer ---- */
+.account {
+  display: flex;
+  align-items: center;
+  gap: 0.6875rem;
+  padding: 0.5rem 0.625rem;
+  border-radius: var(--rw-radius-md);
+  transition: background-color var(--rw-transition-fast);
+}
+.account:hover {
+  background: var(--rw-fill-2);
+}
+.accountText {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+.accountName {
+  font-size: var(--rw-text-base);
+  font-weight: var(--rw-weight-semibold);
+  color: var(--rw-text-bright);
+}
+.accountRole {
+  font-size: var(--rw-text-sm);
+  color: var(--rw-text-muted);
+}

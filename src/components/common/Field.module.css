@@ -1,0 +1,131 @@
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4375rem;
+}
+
+.label {
+  font-size: var(--rw-text-sm);
+  font-weight: var(--rw-weight-semibold);
+  color: var(--rw-text);
+}
+
+.required {
+  color: var(--rw-primary);
+  margin-left: 2px;
+}
+
+.controlWrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.control {
+  width: 100%;
+  font-family: var(--rw-font-body);
+  font-size: var(--rw-text-base);
+  color: var(--rw-text);
+  background: var(--rw-surface-input);
+  border: 1px solid var(--rw-border-strong);
+  border-radius: var(--rw-radius-lg);
+  padding: 0.6875rem 0.875rem;
+  transition: border-color var(--rw-transition-fast),
+    box-shadow var(--rw-transition-fast), background-color var(--rw-transition-fast);
+}
+
+.control::placeholder {
+  color: var(--rw-text-muted);
+}
+
+.control:hover:not(:disabled):not(:focus) {
+  border-color: var(--rw-border-hover);
+}
+
+.control:focus {
+  outline: none;
+  border-color: var(--rw-primary);
+  box-shadow: 0 0 0 3px rgba(224, 45, 60, 0.16);
+}
+
+.control:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+/* Leading icon (e.g. search) */
+.hasLeadingIcon {
+  padding-left: 2.75rem;
+}
+.leadingIcon {
+  position: absolute;
+  left: 0.875rem;
+  display: inline-flex;
+  color: var(--rw-text-muted);
+  pointer-events: none;
+}
+
+/* Trailing slot (e.g. password show/hide toggle) */
+.hasTrailing {
+  padding-right: 2.875rem;
+}
+.trailing {
+  position: absolute;
+  right: 0.4375rem;
+  display: inline-flex;
+  align-items: center;
+}
+.trailingButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  border: none;
+  background: transparent;
+  border-radius: var(--rw-radius-sm);
+  color: var(--rw-text-muted);
+  cursor: pointer;
+  transition: color var(--rw-transition-fast), background-color var(--rw-transition-fast);
+}
+.trailingButton:hover {
+  color: var(--rw-text-bright);
+  background: var(--rw-fill-2);
+}
+
+/* Select chevron */
+.selectControl {
+  appearance: none;
+  background-image: none;
+  padding-right: 2.5rem;
+  cursor: pointer;
+}
+.chevron {
+  position: absolute;
+  right: 0.875rem;
+  color: var(--rw-text-muted);
+  pointer-events: none;
+}
+
+.textareaControl {
+  resize: vertical;
+  min-height: 7.5rem;
+  line-height: 1.55;
+}
+
+.invalid {
+  border-color: var(--rw-danger);
+}
+.invalid:focus {
+  border-color: var(--rw-danger);
+  box-shadow: 0 0 0 3px rgba(224, 69, 60, 0.16);
+}
+
+.hint {
+  font-size: var(--rw-text-sm);
+  color: var(--rw-text-muted);
+}
+.errorText {
+  font-size: var(--rw-text-sm);
+  color: var(--rw-danger);
+}

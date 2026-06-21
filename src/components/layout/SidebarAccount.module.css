@@ -1,0 +1,65 @@
+.wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.account {
+  display: flex;
+  align-items: center;
+  gap: 0.6875rem;
+  padding: 0.5rem 0.625rem;
+  border-radius: var(--rw-radius-md);
+  transition: background-color var(--rw-transition-fast);
+}
+.account:hover {
+  background: var(--rw-fill-2);
+}
+.text {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+.name {
+  font-size: var(--rw-text-base);
+  font-weight: var(--rw-weight-semibold);
+  color: var(--rw-text-bright);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.role {
+  font-size: var(--rw-text-sm);
+  color: var(--rw-text-muted);
+  text-transform: capitalize;
+}
+
+.signOut {
+  display: flex;
+  align-items: center;
+  gap: 0.6875rem;
+  width: 100%;
+  padding: 0.5rem 0.625rem;
+  border: none;
+  background: transparent;
+  border-radius: var(--rw-radius-md);
+  color: var(--rw-text-secondary);
+  font-size: var(--rw-text-base);
+  font-weight: var(--rw-weight-medium);
+  cursor: pointer;
+  transition: background-color var(--rw-transition-fast),
+    color var(--rw-transition-fast);
+}
+.signOut:hover {
+  background: var(--rw-fill-2);
+  color: var(--rw-text-bright);
+}
+.signOutIcon {
+  display: inline-flex;
+  width: 2rem;
+  justify-content: center;
+  color: var(--rw-text-muted);
+}
+.signOut:hover .signOutIcon {
+  color: var(--rw-primary);
+}

@@ -1,0 +1,106 @@
+.shell {
+  display: grid;
+  grid-template-columns: var(--rw-sidebar-width) 1fr;
+  min-height: 100vh;
+  background: var(--rw-bg);
+}
+
+.sidebarCol {
+  position: relative;
+}
+
+.main {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: var(--rw-z-sticky);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--rw-space-4);
+  height: var(--rw-nav-height);
+  padding-inline: clamp(var(--rw-space-5), 4vw, var(--rw-space-10));
+  background: var(--rw-nav-bg);
+  backdrop-filter: blur(16px) saturate(140%);
+  -webkit-backdrop-filter: blur(16px) saturate(140%);
+  border-bottom: 1px solid var(--rw-border);
+}
+
+.topbarStart {
+  display: flex;
+  align-items: center;
+  gap: var(--rw-space-3);
+  min-width: 0;
+}
+
+.topbarTitle {
+  font-family: var(--rw-font-display);
+  font-size: var(--rw-text-lg);
+  font-weight: var(--rw-weight-semibold);
+  color: var(--rw-text-bright);
+}
+
+.topbarEnd {
+  display: flex;
+  align-items: center;
+  gap: var(--rw-space-3);
+}
+
+.content {
+  flex: 1;
+  padding: clamp(var(--rw-space-6), 4vw, var(--rw-space-10));
+}
+
+.contentInner {
+  max-width: 1120px;
+  margin-inline: auto;
+}
+
+.menuButton {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: var(--rw-radius-md);
+  background: var(--rw-fill-2);
+  border: 1px solid var(--rw-border-stronger);
+  color: var(--rw-text-bright);
+  cursor: pointer;
+}
+
+.scrim {
+  display: none;
+}
+
+/* ---- Responsive: collapse sidebar into a drawer ---- */
+@media (max-width: 900px) {
+  .shell {
+    grid-template-columns: 1fr;
+  }
+  .sidebarCol {
+    position: fixed;
+    inset: 0 auto 0 0;
+    z-index: var(--rw-z-sidebar);
+    transform: translateX(-100%);
+    transition: transform var(--rw-transition) var(--rw-ease-out);
+  }
+  .sidebarOpen .sidebarCol {
+    transform: translateX(0);
+  }
+  .menuButton {
+    display: inline-flex;
+  }
+  .sidebarOpen .scrim {
+    display: block;
+    position: fixed;
+    inset: 0;
+    z-index: var(--rw-z-overlay);
+    background: var(--rw-overlay);
+  }
+}

@@ -1,0 +1,57 @@
+.header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--rw-space-4);
+  margin-bottom: var(--rw-space-8);
+}
+
+.text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  min-width: 0;
+}
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5625rem;
+}
+.eyebrowBar {
+  width: 22px;
+  height: 3px;
+  border-radius: 2px;
+  background: var(--rw-primary);
+}
+.eyebrowText {
+  font-size: var(--rw-text-xs);
+  font-weight: var(--rw-weight-bold);
+  letter-spacing: var(--rw-tracking-wider);
+  text-transform: uppercase;
+  color: var(--rw-primary);
+}
+
+.title {
+  font-family: var(--rw-font-display);
+  font-size: var(--rw-text-3xl);
+  font-weight: var(--rw-weight-bold);
+  line-height: 1.1;
+  letter-spacing: var(--rw-tracking-snug);
+  color: var(--rw-text-bright);
+}
+
+.subtitle {
+  font-size: var(--rw-text-md);
+  line-height: 1.55;
+  color: var(--rw-text-secondary);
+  max-width: 42rem;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--rw-space-3);
+}

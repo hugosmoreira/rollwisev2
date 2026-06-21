@@ -1,0 +1,80 @@
+.footer {
+  border-top: 1px solid var(--rw-border);
+  background: var(--rw-bg);
+}
+
+.inner {
+  max-width: var(--rw-container);
+  margin-inline: auto;
+  padding: clamp(3rem, 6vw, 4.5rem) var(--rw-space-6) clamp(2rem, 4vw, 2.75rem);
+}
+
+.top {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2.5rem;
+  justify-content: space-between;
+}
+
+.brand {
+  flex: 1 1 260px;
+  min-width: 240px;
+  max-width: 340px;
+}
+
+.brandLogo {
+  margin-bottom: var(--rw-space-4);
+}
+
+.tagline {
+  font-size: var(--rw-text-base);
+  line-height: 1.6;
+  color: var(--rw-text-muted);
+}
+
+.columns {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3rem;
+}
+
+.colTitle {
+  font-size: var(--rw-text-xs);
+  font-weight: var(--rw-weight-bold);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--rw-text-faint);
+  margin-bottom: var(--rw-space-4);
+}
+
+.colLinks {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6875rem;
+}
+
+.colLink {
+  font-size: var(--rw-text-base);
+  color: var(--rw-text-secondary);
+  transition: color var(--rw-transition-fast);
+  width: fit-content;
+}
+.colLink:hover {
+  color: var(--rw-text-bright);
+}
+
+.bottom {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--rw-space-4);
+  align-items: center;
+  justify-content: space-between;
+  margin-top: clamp(2.5rem, 5vw, 3.5rem);
+  padding-top: var(--rw-space-6);
+  border-top: 1px solid var(--rw-border);
+}
+
+.fine {
+  font-size: var(--rw-text-sm);
+  color: var(--rw-text-faint);
+}

@@ -1,0 +1,154 @@
+.calHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--rw-space-4);
+  margin-bottom: var(--rw-space-5);
+}
+.calTitle {
+  font-family: var(--rw-font-display);
+  font-size: var(--rw-text-xl);
+  font-weight: var(--rw-weight-semibold);
+  letter-spacing: var(--rw-tracking-snug);
+  color: var(--rw-text-bright);
+}
+.calNav {
+  display: flex;
+  align-items: center;
+  gap: var(--rw-space-2);
+}
+.navBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: var(--rw-radius-md);
+  background: var(--rw-fill-2);
+  border: 1px solid var(--rw-border-stronger);
+  color: var(--rw-text-secondary);
+  cursor: pointer;
+  transition: background-color var(--rw-transition-fast),
+    color var(--rw-transition-fast);
+}
+.navBtn:hover {
+  background: var(--rw-fill-3);
+  color: var(--rw-text-bright);
+}
+.todayBtn {
+  width: auto;
+  padding: 0 0.875rem;
+  font-size: var(--rw-text-sm);
+  font-weight: var(--rw-weight-semibold);
+}
+
+.weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 6px;
+  margin-bottom: 6px;
+}
+.weekday {
+  text-align: center;
+  font-size: var(--rw-text-xs);
+  font-weight: var(--rw-weight-bold);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--rw-text-faint);
+  padding-bottom: var(--rw-space-1);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 6px;
+}
+.cell {
+  min-height: 68px;
+  padding: 0.4375rem;
+  border-radius: var(--rw-radius-md);
+  border: 1px solid var(--rw-border);
+  background: var(--rw-fill-1);
+}
+.cellMuted {
+  border-color: transparent;
+  background: transparent;
+}
+.cellToday {
+  border-color: var(--rw-primary-soft-border);
+  background: var(--rw-primary-soft);
+}
+.dayNum {
+  font-size: var(--rw-text-sm);
+  font-weight: var(--rw-weight-semibold);
+  color: var(--rw-text);
+}
+.cellMuted .dayNum {
+  color: var(--rw-text-faint);
+}
+.cellToday .dayNum {
+  color: var(--rw-primary);
+}
+.cellEvent {
+  border-color: var(--rw-border-stronger);
+}
+.eventDot {
+  display: block;
+  width: 6px;
+  height: 6px;
+  margin-top: 6px;
+  border-radius: 50%;
+  background: var(--rw-primary);
+}
+
+/* Upcoming list */
+.upcoming {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--rw-space-3);
+}
+.upItem {
+  display: flex;
+  align-items: center;
+  gap: var(--rw-space-4);
+  padding: var(--rw-space-4);
+  border-radius: var(--rw-radius-md);
+  border: 1px solid var(--rw-border);
+  background: var(--rw-fill-1);
+  text-decoration: none;
+  transition: background-color var(--rw-transition-fast),
+    border-color var(--rw-transition-fast);
+}
+.upItem:hover {
+  background: var(--rw-fill-2);
+  border-color: var(--rw-border-stronger);
+}
+.upDate {
+  display: flex;
+  flex-direction: column;
+  min-width: 5.5rem;
+}
+.upDay {
+  font-size: var(--rw-text-sm);
+  font-weight: var(--rw-weight-semibold);
+  color: var(--rw-text-bright);
+}
+.upTime {
+  font-size: var(--rw-text-xs);
+  color: var(--rw-text-secondary);
+}
+.upTitle {
+  font-size: var(--rw-text-sm);
+  font-weight: var(--rw-weight-medium);
+  color: var(--rw-text);
+}
+
+@media (max-width: 520px) {
+  .cell {
+    min-height: 48px;
+    padding: 0.25rem;
+  }
+}

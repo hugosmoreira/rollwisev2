@@ -1,0 +1,29 @@
+.swatch {
+  --_belt: #0a0a0b;
+  display: inline-block;
+  width: 18px;
+  height: 6px;
+  border-radius: 1px;
+  background: linear-gradient(90deg, var(--_belt) 58%, var(--rw-red) 58%);
+  border: 1px solid rgba(80, 80, 86, 0.7);
+  flex-shrink: 0;
+}
+
+.sm {
+  width: 16px;
+  height: 5px;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4375rem;
+  font-size: var(--rw-text-xs);
+  font-weight: var(--rw-weight-semibold);
+  color: var(--rw-text);
+  background: var(--rw-belt-base);
+  border: 1px solid var(--rw-border-stronger);
+  padding: 0.3125rem 0.625rem;
+  border-radius: var(--rw-radius-sm);
+  white-space: nowrap;
+}

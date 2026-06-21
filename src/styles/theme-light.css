@@ -1,0 +1,69 @@
+/* =================================================================
+   RollWise — Light Theme
+   -----------------------------------------------------------------
+   The same black-belt identity translated to a clean, premium
+   Notion-style light surface: off-white canvas, charcoal text,
+   soft gray hairlines, the same red accent. Every token mirrors
+   theme-dark.css so components are theme-agnostic.
+   ================================================================= */
+
+[data-theme='light'] {
+  color-scheme: light;
+
+  /* ---- Backgrounds ---- */
+  --rw-bg: #fbfbfc;
+  --rw-bg-subtle: #f3f3f5;
+  --rw-bg-elevated: #ffffff;
+
+  /* ---- Surfaces (cards) ---- */
+  --rw-surface: #ffffff;
+  --rw-surface-2: #ffffff;
+  --rw-surface-3: #f7f7f9;
+  --rw-surface-hover: #f5f5f7;
+  --rw-surface-input: #ffffff;
+
+  --rw-card-gradient: linear-gradient(180deg, #ffffff, #fafafb);
+  --rw-card-gradient-strong: linear-gradient(170deg, #ffffff, #f6f6f8);
+  --rw-card-gradient-raised: linear-gradient(170deg, #ffffff, #f4f4f6);
+
+  /* ---- Hairline fills & borders (black alpha in light) ---- */
+  --rw-fill-1: rgba(15, 15, 20, 0.02);
+  --rw-fill-2: rgba(15, 15, 20, 0.035);
+  --rw-fill-3: rgba(15, 15, 20, 0.06);
+  --rw-border: rgba(15, 15, 20, 0.08);
+  --rw-border-strong: rgba(15, 15, 20, 0.11);
+  --rw-border-stronger: rgba(15, 15, 20, 0.14);
+  --rw-border-hover: rgba(15, 15, 20, 0.22);
+
+  /* ---- Text ---- */
+  --rw-text: #1b1b20;
+  --rw-text-bright: #0a0a0b;
+  --rw-text-secondary: #5c5c64;
+  --rw-text-muted: #86868c;
+  --rw-text-faint: #9a9aa0;
+  --rw-text-on-fill: #3a3a42;
+
+  /* ---- Accent surfaces ---- */
+  --rw-success-bg: rgba(31, 157, 84, 0.12);
+
+  /* ---- Effects ---- */
+  --rw-glow: rgba(224, 45, 60, 0.13);
+  --rw-grid-line: rgba(15, 15, 20, 0.03);
+  --rw-nav-bg: rgba(251, 251, 252, 0.82);
+  --rw-overlay: rgba(20, 20, 26, 0.42);
+  --rw-inset-highlight: inset 0 1px 0 rgba(255, 255, 255, 0.6);
+  --rw-belt-base: #ececed;
+
+  --rw-weave: repeating-linear-gradient(135deg, #e7e7ea 0 9px, #f1f1f3 9px 18px);
+  --rw-weave-sm: repeating-linear-gradient(135deg, #e6e6e9 0 7px, #f0f0f2 7px 14px);
+
+  /* ---- Shadows ---- */
+  --rw-shadow-sm: 0 1px 2px rgba(15, 15, 20, 0.06);
+  --rw-shadow-card: 0 4px 18px -8px rgba(15, 15, 20, 0.12);
+  --rw-shadow-lg: 0 24px 48px -24px rgba(15, 15, 20, 0.2);
+  --rw-shadow-xl: 0 32px 64px -32px rgba(15, 15, 20, 0.22);
+  --rw-shadow-primary: inset 0 1px 0 rgba(255, 255, 255, 0.3),
+    0 12px 26px -12px rgba(224, 45, 60, 0.5);
+  --rw-shadow-primary-sm: inset 0 1px 0 rgba(255, 255, 255, 0.3),
+    0 8px 18px -10px rgba(224, 45, 60, 0.45);
+}

@@ -1,0 +1,83 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--rw-space-4);
+  height: 100%;
+}
+
+.badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4375rem;
+}
+
+.title {
+  font-family: var(--rw-font-display);
+  font-size: var(--rw-text-lg);
+  font-weight: var(--rw-weight-semibold);
+  color: var(--rw-text-bright);
+  line-height: 1.25;
+}
+
+.coach {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+}
+.coachName {
+  font-size: var(--rw-text-base);
+  font-weight: var(--rw-weight-medium);
+  color: var(--rw-text-secondary);
+}
+
+.meta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.metaRow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: var(--rw-text-base);
+  color: var(--rw-text-secondary);
+}
+.metaIcon {
+  color: var(--rw-text-muted);
+  flex-shrink: 0;
+}
+
+.spacer {
+  flex: 1;
+}
+
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--rw-space-3);
+  padding-top: var(--rw-space-4);
+  border-top: 1px solid var(--rw-border);
+}
+
+.price {
+  font-family: var(--rw-font-display);
+  font-size: var(--rw-text-xl);
+  font-weight: var(--rw-weight-bold);
+  color: var(--rw-text-bright);
+  line-height: 1;
+}
+.priceUnit {
+  font-size: var(--rw-text-sm);
+  font-weight: var(--rw-weight-medium);
+  color: var(--rw-text-muted);
+}
+
+.spots {
+  font-size: var(--rw-text-sm);
+  color: var(--rw-text-muted);
+}
+.spotsLow {
+  color: var(--rw-warning);
+  font-weight: var(--rw-weight-semibold);
+}

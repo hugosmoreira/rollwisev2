@@ -1,0 +1,50 @@
+.welcome {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--rw-radius-2xl);
+  border: 1px solid var(--rw-border-strong);
+  background: var(--rw-card-gradient-strong);
+  padding: clamp(1.75rem, 4vw, 2.5rem);
+}
+.welcomeGlow {
+  position: absolute;
+  top: -140px;
+  right: -60px;
+  width: 420px;
+  height: 360px;
+  background: radial-gradient(ellipse at center, var(--rw-glow), transparent 65%);
+  pointer-events: none;
+}
+.welcomeInner {
+  position: relative;
+  max-width: 40rem;
+}
+.belt {
+  display: inline-block;
+  width: 26px;
+  height: 6px;
+  border-radius: 1px;
+  background: linear-gradient(90deg, var(--rw-belt-base) 55%, var(--rw-primary) 55%);
+  border: 1px solid rgba(80, 80, 86, 0.7);
+  margin-bottom: var(--rw-space-4);
+}
+.welcomeTitle {
+  font-family: var(--rw-font-display);
+  font-weight: var(--rw-weight-bold);
+  font-size: clamp(1.625rem, 3.5vw, 2.25rem);
+  line-height: 1.1;
+  letter-spacing: var(--rw-tracking-snug);
+  color: var(--rw-text-bright);
+  margin-bottom: var(--rw-space-3);
+}
+.welcomeText {
+  font-size: var(--rw-text-md);
+  line-height: 1.55;
+  color: var(--rw-text-secondary);
+  margin-bottom: var(--rw-space-6);
+}
+.welcomeActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--rw-space-3);
+}

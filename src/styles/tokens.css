@@ -1,0 +1,110 @@
+/* =================================================================
+   RollWise — Design Tokens
+   -----------------------------------------------------------------
+   Theme-INVARIANT design primitives only: typography, spacing,
+   radius, motion, layout, z-index, and brand-constant colors that
+   never change between light and dark (the red, the success green).
+
+   All theme-dependent colors (backgrounds, text, borders, surfaces,
+   shadows) live in theme-dark.css / theme-light.css and are read
+   through the same semantic variable names everywhere.
+   ================================================================= */
+
+:root {
+  /* ---- Brand color (constant across themes) ---- */
+  --rw-red: #e02d3c;
+  --rw-red-hover: #f0414f;
+  --rw-red-dark: #a81e2a;
+  --rw-red-contrast: #ffffff;
+  --rw-red-soft: rgba(224, 45, 60, 0.1);
+  --rw-red-soft-border: rgba(224, 45, 60, 0.25);
+  --rw-red-glow: rgba(224, 45, 60, 0.8);
+
+  /* Semantic primary (aliases the brand red; lets us re-skin later) */
+  --rw-primary: var(--rw-red);
+  --rw-primary-hover: var(--rw-red-hover);
+  --rw-primary-dark: var(--rw-red-dark);
+  --rw-primary-contrast: var(--rw-red-contrast);
+  --rw-primary-soft: var(--rw-red-soft);
+  --rw-primary-soft-border: var(--rw-red-soft-border);
+
+  /* ---- Status colors (constant) ---- */
+  --rw-success: #1f9d54;
+  --rw-success-bright: #3fbe6b;
+  --rw-online: #1a8f4a;
+  --rw-warning: #e0a13c;
+  --rw-danger: #e0453c;
+
+  /* ---- Typography ---- */
+  --rw-font-display: 'Space Grotesk', system-ui, -apple-system, sans-serif;
+  --rw-font-body: 'Hanken Grotesk', system-ui, -apple-system, 'Segoe UI', sans-serif;
+
+  --rw-text-xs: 0.75rem;     /* 12 */
+  --rw-text-sm: 0.8125rem;   /* 13 */
+  --rw-text-base: 0.9375rem; /* 15 */
+  --rw-text-md: 1rem;        /* 16 */
+  --rw-text-lg: 1.125rem;    /* 18 */
+  --rw-text-xl: 1.25rem;     /* 20 */
+  --rw-text-2xl: 1.5rem;     /* 24 */
+  --rw-text-3xl: 1.875rem;   /* 30 */
+  --rw-text-4xl: 2.875rem;   /* 46 */
+
+  --rw-weight-regular: 400;
+  --rw-weight-medium: 500;
+  --rw-weight-semibold: 600;
+  --rw-weight-bold: 700;
+
+  --rw-tracking-tight: -0.03em;
+  --rw-tracking-snug: -0.02em;
+  --rw-tracking-wide: 0.08em;
+  --rw-tracking-wider: 0.16em;
+
+  --rw-leading-tight: 1.05;
+  --rw-leading-snug: 1.2;
+  --rw-leading-normal: 1.6;
+
+  /* ---- Spacing scale (4px base) ---- */
+  --rw-space-1: 0.25rem;
+  --rw-space-2: 0.5rem;
+  --rw-space-3: 0.75rem;
+  --rw-space-4: 1rem;
+  --rw-space-5: 1.25rem;
+  --rw-space-6: 1.5rem;
+  --rw-space-7: 1.75rem;
+  --rw-space-8: 2rem;
+  --rw-space-10: 2.5rem;
+  --rw-space-12: 3rem;
+  --rw-space-16: 4rem;
+  --rw-space-20: 5rem;
+  --rw-space-24: 6rem;
+
+  /* ---- Radius ---- */
+  --rw-radius-xs: 6px;
+  --rw-radius-sm: 8px;
+  --rw-radius-md: 10px;
+  --rw-radius-lg: 12px;
+  --rw-radius-xl: 16px;
+  --rw-radius-2xl: 20px;
+  --rw-radius-3xl: 28px;
+  --rw-radius-pill: 999px;
+
+  /* ---- Motion ---- */
+  --rw-transition-fast: 0.15s ease;
+  --rw-transition: 0.2s ease;
+  --rw-transition-slow: 0.3s ease;
+  --rw-ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* ---- Layout ---- */
+  --rw-container: 1200px;
+  --rw-container-narrow: 680px;
+  --rw-nav-height: 70px;
+  --rw-sidebar-width: 256px;
+
+  /* ---- Z-index scale ---- */
+  --rw-z-base: 1;
+  --rw-z-sticky: 60;
+  --rw-z-sidebar: 70;
+  --rw-z-overlay: 100;
+  --rw-z-modal: 110;
+  --rw-z-toast: 120;
+}
