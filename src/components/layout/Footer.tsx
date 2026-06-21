@@ -33,8 +33,8 @@ const COLUMNS: FooterColumn[] = [
   {
     title: 'Legal',
     links: [
-      { label: 'Terms', to: ROUTES.about },
-      { label: 'Privacy', to: ROUTES.about },
+      { label: 'Terms', to: ROUTES.terms },
+      { label: 'Privacy', to: ROUTES.privacy },
     ],
   },
 ];

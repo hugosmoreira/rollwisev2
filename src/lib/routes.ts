@@ -8,6 +8,8 @@ export const ROUTES = {
   findCoaches: '/find-coaches',
   about: '/about',
   becomeCoach: '/become-a-coach',
+  terms: '/terms',
+  privacy: '/privacy',
 
   // ---- Auth ----
   login: '/auth/login',

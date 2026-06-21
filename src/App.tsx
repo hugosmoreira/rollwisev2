@@ -13,6 +13,8 @@ import { LandingPage } from '@/pages/public/LandingPage';
 import { FindCoachesPage } from '@/pages/public/FindCoachesPage';
 import { AboutPage } from '@/pages/public/AboutPage';
 import { BecomeCoachPage } from '@/pages/public/BecomeCoachPage';
+import { TermsPage } from '@/pages/public/TermsPage';
+import { PrivacyPage } from '@/pages/public/PrivacyPage';
 
 import { LoginPage } from '@/pages/auth/LoginPage';
 import { SignupPage } from '@/pages/auth/SignupPage';
@@ -66,6 +68,8 @@ export function App() {
             <Route path="/find-coaches" element={<FindCoachesPage />} />
             <Route path="/about" element={<AboutPage />} />
             <Route path="/become-a-coach" element={<BecomeCoachPage />} />
+            <Route path="/terms" element={<TermsPage />} />
+            <Route path="/privacy" element={<PrivacyPage />} />
             {/* ---- Fallback ---- */}
             <Route path="*" element={<NotFoundPage />} />
           </Route>

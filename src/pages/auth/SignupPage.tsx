@@ -165,8 +165,8 @@ export function SignupPage() {
 
       <p className={styles.agreement}>
         By creating an account, you agree to our{' '}
-        <Link to={ROUTES.about}>Terms</Link> and{' '}
-        <Link to={ROUTES.about}>Privacy Policy</Link>.
+        <Link to={ROUTES.terms}>Terms</Link> and{' '}
+        <Link to={ROUTES.privacy}>Privacy Policy</Link>.
       </p>
 
       <p className={styles.footer}>
