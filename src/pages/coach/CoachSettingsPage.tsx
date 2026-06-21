@@ -62,7 +62,10 @@ export function CoachSettingsPage() {
         {/* Notifications */}
         <section className={shared.panel}>
           <h2 className={styles.panelTitle}>Notifications</h2>
-          <p className={styles.panelDesc}>Decide what RollWise can email you about.</p>
+          <p className={styles.panelDesc}>
+            Email preferences — coming soon. These aren't saved yet (booking
+            confirmation emails are always sent).
+          </p>
           <div className={styles.rows}>
             <div className={styles.row}>
               <div className={styles.rowText}>

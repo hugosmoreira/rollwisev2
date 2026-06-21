@@ -5,9 +5,8 @@ import { Input } from '@/components/common/Input';
 import { PasswordInput } from '@/components/common/PasswordInput';
 import { Button } from '@/components/common/Button';
 import { Banner } from '@/components/common/Banner';
-import { OAuthButtons } from './OAuthButtons';
 import { useAuthAction } from './useAuthAction';
-import { authService, type AuthRole, type OAuthProvider } from '@/services/authService';
+import { authService, type AuthRole } from '@/services/authService';
 import { isEmail, isFilled, minLength } from '@/lib/validation';
 import { ROUTES } from '@/lib/routes';
 import { cn } from '@/lib/cn';
@@ -66,9 +65,6 @@ export function SignupPage() {
     });
   };
 
-  const onOAuth = (provider: OAuthProvider) =>
-    void run(() => authService.signInWithOAuth(provider));
-
   return (
     <div>
       <div className={styles.head}>
@@ -88,10 +84,6 @@ export function SignupPage() {
           {info}
         </Banner>
       )}
-
-      <OAuthButtons onSelect={onOAuth} disabled={pending} verb="Sign up" />
-
-      <div className={styles.divider}>or sign up with email</div>
 
       <form className={styles.form} onSubmit={onSubmit} noValidate>
         <div>

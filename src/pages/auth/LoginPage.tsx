@@ -4,9 +4,8 @@ import { Input } from '@/components/common/Input';
 import { PasswordInput } from '@/components/common/PasswordInput';
 import { Button } from '@/components/common/Button';
 import { Banner } from '@/components/common/Banner';
-import { OAuthButtons } from './OAuthButtons';
 import { useAuthAction } from './useAuthAction';
-import { authService, type OAuthProvider } from '@/services/authService';
+import { authService } from '@/services/authService';
 import { isEmail, isFilled } from '@/lib/validation';
 import { ROUTES } from '@/lib/routes';
 import styles from './Auth.module.css';
@@ -40,9 +39,6 @@ export function LoginPage() {
     });
   };
 
-  const onOAuth = (provider: OAuthProvider) =>
-    void run(() => authService.signInWithOAuth(provider));
-
   return (
     <div>
       <div className={styles.head}>
@@ -55,10 +51,6 @@ export function LoginPage() {
           {error}
         </Banner>
       )}
-
-      <OAuthButtons onSelect={onOAuth} disabled={pending} />
-
-      <div className={styles.divider}>or continue with email</div>
 
       <form className={styles.form} onSubmit={onSubmit} noValidate>
         <Input

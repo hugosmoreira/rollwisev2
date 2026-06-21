@@ -62,7 +62,8 @@ export function SettingsPage() {
         <section className={shared.panel}>
           <h2 className={styles.panelTitle}>Notifications</h2>
           <p className={styles.panelDesc}>
-            Decide what RollWise can email you about.
+            Email preferences — coming soon. These aren't saved yet (your booking
+            confirmation emails are always sent).
           </p>
           <div className={styles.rows}>
             <div className={styles.row}>
