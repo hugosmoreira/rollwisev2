@@ -1,6 +1,10 @@
 // stripe-connect — creates (or reuses) a coach's Stripe Express account and
 // returns an onboarding link. The coach is identified from their JWT.
 //
+// Optional JSON body: { returnUrl, refreshUrl } — app-originated callers (mobile)
+// can pass deep links (rollwise://...) so onboarding returns to the app; web
+// callers send no body and get the web Earnings page.
+//
 // Deploy: supabase functions deploy stripe-connect
 // Secrets needed: STRIPE_SECRET_KEY, APP_URL
 
@@ -41,6 +45,14 @@ Deno.serve(async (req) => {
     } = await userClient.auth.getUser();
     if (!user) return json({ error: 'Not authenticated' }, 401);
 
+    // Optional body — web sends none; mobile may send deep-link return/refresh URLs.
+    let body: { returnUrl?: string; refreshUrl?: string } = {};
+    try {
+      body = await req.json();
+    } catch {
+      // no/empty body — fall back to the web defaults below
+    }
+
     const admin = createClient(supabaseUrl, serviceKey);
     const { data: profile } = await admin
       .from('profiles')
@@ -55,6 +67,15 @@ Deno.serve(async (req) => {
       const account = await stripe.accounts.create({
         type: 'express',
         email: profile.email ?? user.email,
+        // Individual is the norm for a coaching marketplace; supplying a product
+        // description means Stripe no longer requires the coach to provide a
+        // business website during onboarding. (Drop business_type if you need
+        // company-type coaches to onboard.)
+        business_type: 'individual',
+        business_profile: {
+          product_description:
+            'One-on-one and small-group Brazilian Jiu-Jitsu coaching sessions booked through RollWise.',
+        },
       });
       accountId = account.id;
       await admin
@@ -63,10 +84,21 @@ Deno.serve(async (req) => {
         .eq('id', user.id);
     }
 
+    // Mobile-aware return/refresh URLs. Only our own web origin or a rollwise://
+    // deep link is accepted, so this can't be turned into an open redirect.
+    const allowed = (u: unknown): u is string =>
+      typeof u === 'string' && (u.startsWith('rollwise://') || u.startsWith(appUrl));
+    const returnUrl = allowed(body.returnUrl)
+      ? body.returnUrl
+      : `${appUrl}/app/coach/earnings?stripe=connected`;
+    const refreshUrl = allowed(body.refreshUrl)
+      ? body.refreshUrl
+      : `${appUrl}/app/coach/earnings?stripe=refresh`;
+
     const link = await stripe.accountLinks.create({
       account: accountId,
-      refresh_url: `${appUrl}/app/coach/earnings?stripe=refresh`,
-      return_url: `${appUrl}/app/coach/earnings?stripe=connected`,
+      refresh_url: refreshUrl,
+      return_url: returnUrl,
       type: 'account_onboarding',
     });
 

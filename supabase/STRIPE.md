@@ -35,12 +35,13 @@ The functions:
   directly, so this is the only path.
 
 > **Shared backend — web and mobile use the same Supabase project + Stripe
-> account.** `stripe-webhook`, `cancel-booking`, and `cancel-session` are
-> **co-maintained** by both apps. The deployed `stripe-webhook` MUST keep the
-> `payment_intent.succeeded` handler or mobile (PaymentSheet) bookings silently
-> never get created. Agree on ONE canonical version before redeploying any of
-> these, and keep the refund fallback in `cancel-booking`/`cancel-session` (it
-> handles charges with no associated transfer, e.g. legacy/seed data).
+> account. Ownership split:** the **mobile repo** owns and deploys
+> `stripe-webhook`, `cancel-booking`, `cancel-session`, `create-payment-intent`,
+> and `_shared/`. The **web repo (rollwisev2)** owns the database migrations,
+> `create-checkout`, and `stripe-connect`. The copies of the mobile-owned
+> functions in this repo are **reference only — do not deploy them from here.**
+> The deployed `stripe-webhook` handles both `checkout.session.completed` (web)
+> and `payment_intent.succeeded` (mobile); the live webhook must subscribe to both.
 
 ## 0. One-time: database
 
@@ -73,16 +74,16 @@ supabase secrets set PLATFORM_FEE_PERCENT=20      # your take rate (%)
 ## 3. Deploy the functions
 
 ```bash
+# Web repo (rollwisev2) owns and deploys ONLY these two:
 supabase functions deploy create-checkout
 supabase functions deploy stripe-connect
-# SHARED with mobile — deploy from ONE canonical source only (see the shared-
-# backend note above). Redeploying these web copies can drop the mobile
-# payment_intent.succeeded handler or the refund fallback:
-supabase functions deploy cancel-booking
-supabase functions deploy cancel-session
-# The webhook has no Supabase JWT (Stripe calls it directly):
-supabase functions deploy stripe-webhook --no-verify-jwt
 ```
+
+`stripe-webhook`, `cancel-booking`, `cancel-session`, and `create-payment-intent`
+(plus `_shared/`) are **deployed from the mobile repo** (see the shared-backend
+note above). Do **not** deploy them from rollwisev2 — the copies here are
+reference only, and the web `stripe-webhook` copy lacks the mobile
+`payment_intent.succeeded` handler.
 
 ## 4. Create the Stripe webhook
 

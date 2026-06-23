@@ -1,3 +1,8 @@
+// ⚠️ REFERENCE COPY — OWNED & DEPLOYED FROM THE MOBILE REPO. Per the web/mobile
+// ownership split, do NOT `supabase functions deploy cancel-session` from
+// rollwisev2. Kept for reference/local dev; the web client calls the version
+// mobile deploys. See supabase/STRIPE.md.
+//
 // cancel-session — cancels a coaching session on behalf of its coach (or admin).
 //
 // This is the coach-side analogue of cancel-booking. When a session is cancelled,

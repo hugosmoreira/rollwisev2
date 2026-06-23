@@ -1,3 +1,8 @@
+// ⚠️ REFERENCE COPY — OWNED & DEPLOYED FROM THE MOBILE REPO. Per the web/mobile
+// ownership split, do NOT `supabase functions deploy cancel-booking` from
+// rollwisev2. Kept for reference/local dev; the web client calls the version
+// mobile deploys. See supabase/STRIPE.md.
+//
 // cancel-booking — cancels a booking on behalf of one of its participants.
 //
 // For a PAID booking this issues a Stripe refund (reverse_transfer +
