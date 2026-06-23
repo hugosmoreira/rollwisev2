@@ -4,6 +4,10 @@
 // Optional JSON body: { returnUrl, refreshUrl } — app-originated callers (mobile)
 // can pass deep links (rollwise://...) so onboarding returns to the app; web
 // callers send no body and get the web Earnings page.
+// Mobile calls it as: { returnUrl: "rollwise://stripe/connected",
+// refreshUrl: "rollwise://stripe/refresh" }, opened via
+// WebBrowser.openAuthSessionAsync(url, "rollwise://stripe/connected") so the
+// in-app browser auto-closes on return.
 //
 // Deploy: supabase functions deploy stripe-connect
 // Secrets needed: STRIPE_SECRET_KEY, APP_URL

@@ -107,6 +107,14 @@ They must finish Stripe's onboarding before students can book them — in test m
 you can use the prefilled test data. When onboarding completes, the
 `account.updated` webhook marks them payout-ready.
 
+> **Mobile onboarding:** the app calls `stripe-connect` with
+> `{ returnUrl: "rollwise://stripe/connected", refreshUrl: "rollwise://stripe/refresh" }`
+> and opens the link with `WebBrowser.openAuthSessionAsync(...)` so onboarding
+> returns into the app. This requires the **deployed** `stripe-connect` to be the
+> updated version (it reads those URLs and sets `business_type=individual` +
+> a product description so Stripe doesn't demand a business website). Deploy it
+> before testing mobile coach onboarding.
+
 ## 6. Test it
 
 1. Onboard a coach (above), then publish a session as that coach.

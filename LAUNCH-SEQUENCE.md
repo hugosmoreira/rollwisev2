@@ -12,7 +12,24 @@ account**.
 > reference only and the web `stripe-webhook` copy lacks the
 > `payment_intent.succeeded` handler that creates mobile bookings.
 
+## Rollout order (coordinated — do NOT jump ahead)
+
+1. **Web (you):** deploy the fixed `stripe-connect` + `create-checkout`; apply
+   migrations `20260622120400_security`, `20260622120600_public-profiles`,
+   `20260622120700_verification-proofs` in the SQL editor (NOT `db push` — see §1).
+2. **Ping mobile** → mobile verifies `member_profiles` resolves names, then cuts a
+   build (member_profiles read with fallback + stripe-connect deep links + V1 features).
+3. **Test the build** end-to-end: coach onboarding (no website wall, clean return
+   to the app) + booking + cancellation.
+4. **Web (you):** apply `20260622120900_restrict-public-profiles` (closes the
+   anonymous-PII finding). Done.
+
 ## 1. Database migrations (Supabase SQL editor, in filename order)
+
+> ⚠️ Apply these specific files in the **SQL editor** — do NOT run `supabase db
+> push`. The live DB was provisioned by hand (no migration history), so `db push`
+> would apply EVERY migration including `…120900` (the breaking restrict) before
+> the mobile build ships, blanking student names in the installed app.
 
 Already live: `schema`, `hardening`, `stripe`, `timezone`, `spots`, `avatars`, the
 original `public-profiles`, and the #1/#2 booking trigger from `security`.
