@@ -92,7 +92,8 @@ See [`supabase/STRIPE.md`](supabase/STRIPE.md) and
   `APP_URL`, `PLATFORM_FEE_PERCENT`, and (for email) `RESEND_API_KEY`,
   `EMAIL_FROM`, `APP_TIMEZONE`.
 - Register a Stripe webhook endpoint for the events
-  `checkout.session.completed`, `account.updated`, and `charge.refunded`.
+  `checkout.session.completed`, `payment_intent.succeeded` (mobile PaymentSheet),
+  `account.updated`, and `charge.refunded`.
 
 ## How payments work
 

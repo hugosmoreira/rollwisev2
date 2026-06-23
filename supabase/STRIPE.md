@@ -9,11 +9,17 @@ The functions:
   and the coach is **payout-ready**) and creates a Stripe **Checkout Session as a
   destination charge**: the coach's share is routed to their connected account and
   the platform keeps a fee. **No booking is created here.**
-- `stripe-webhook` — on `checkout.session.completed`, **atomically claims a seat**,
+- `stripe-webhook` — on `checkout.session.completed` (web Checkout) **and
+  `payment_intent.succeeded`** (mobile PaymentSheet), **atomically claims a seat**,
   creates the confirmed/paid booking, records the payment, and emails the student
   (if the session filled up first, the student is refunded). It also handles
   `account.updated` (coach onboarding status) and `charge.refunded` (cancels the
-  booking and frees the seat).
+  booking and frees the seat). **Co-maintained with the mobile app — see the
+  shared-backend note below.**
+- `create-payment-intent` — **mobile only** (native Stripe PaymentSheet). Creates a
+  destination-charge PaymentIntent and returns its client secret; the booking is
+  created later by the `payment_intent.succeeded` webhook. (Lives in the mobile
+  repo; listed here so the shared webhook's event set makes sense.)
 - `stripe-connect` — onboards a coach's Stripe **Express** account for payouts.
 - `cancel-booking` — cancels a booking for one of its participants. A **paid**
   booking is **refunded through Stripe** (the `charge.refunded` webhook then frees
@@ -27,6 +33,14 @@ The functions:
   left active so a cancelled session never strands a paid student. The database
   blocks a coach from flipping a session with paid bookings to `cancelled`
   directly, so this is the only path.
+
+> **Shared backend — web and mobile use the same Supabase project + Stripe
+> account.** `stripe-webhook`, `cancel-booking`, and `cancel-session` are
+> **co-maintained** by both apps. The deployed `stripe-webhook` MUST keep the
+> `payment_intent.succeeded` handler or mobile (PaymentSheet) bookings silently
+> never get created. Agree on ONE canonical version before redeploying any of
+> these, and keep the refund fallback in `cancel-booking`/`cancel-session` (it
+> handles charges with no associated transfer, e.g. legacy/seed data).
 
 ## 0. One-time: database
 
@@ -61,6 +75,9 @@ supabase secrets set PLATFORM_FEE_PERCENT=20      # your take rate (%)
 ```bash
 supabase functions deploy create-checkout
 supabase functions deploy stripe-connect
+# SHARED with mobile — deploy from ONE canonical source only (see the shared-
+# backend note above). Redeploying these web copies can drop the mobile
+# payment_intent.succeeded handler or the refund fallback:
 supabase functions deploy cancel-booking
 supabase functions deploy cancel-session
 # The webhook has no Supabase JWT (Stripe calls it directly):
@@ -72,7 +89,8 @@ supabase functions deploy stripe-webhook --no-verify-jwt
 Stripe dashboard → **Developers → Webhooks → Add endpoint**:
 
 - **Endpoint URL:** `https://<your-project-ref>.supabase.co/functions/v1/stripe-webhook`
-- **Events:** `checkout.session.completed`, `account.updated`, `charge.refunded`
+- **Events:** `checkout.session.completed`, **`payment_intent.succeeded`** (required
+  for mobile PaymentSheet bookings), `account.updated`, `charge.refunded`
 
 Copy the endpoint's **Signing secret** (`whsec_…`) and set it, then redeploy:
 

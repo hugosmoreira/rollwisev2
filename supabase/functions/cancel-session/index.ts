@@ -19,6 +19,7 @@
 import Stripe from 'npm:stripe@^16.12.0';
 import { createClient } from 'npm:@supabase/supabase-js@^2.45.0';
 import { corsHeaders, json } from '../_shared/cors.ts';
+import { refundChargeByPaymentIntent } from '../_shared/refund.ts';
 
 Deno.serve(async (req) => {
   if (req.method === 'OPTIONS') return new Response('ok', { headers: corsHeaders });
@@ -107,16 +108,11 @@ Deno.serve(async (req) => {
         }
 
         try {
-          await stripe.refunds.create({
-            payment_intent: paymentIntent,
-            reverse_transfer: true,
-            refund_application_fee: true,
-          });
+          // Prefers a destination-charge refund; falls back to a plain refund
+          // when the charge has no associated transfer (legacy/seed charges).
+          // An already-refunded charge is treated as success.
+          await refundChargeByPaymentIntent(stripe, paymentIntent);
         } catch (e) {
-          // A charge already refunded (e.g. a retry after a partial failure, or a
-          // manual dashboard refund) is fine — the money has already moved, and
-          // the charge.refunded webhook will/did cancel the booking.
-          if ((e as { code?: string }).code === 'charge_already_refunded') continue;
           console.error('Refund failed during session cancel:', {
             session: session.id,
             booking: booking.id,

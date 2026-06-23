@@ -3,6 +3,14 @@
 // a payment. Idempotent on the Checkout session id so a duplicate delivery
 // can't double-book. Verified with the Stripe webhook signing secret.
 //
+// ⚠️ SHARED / CO-MAINTAINED WITH THE MOBILE APP. The canonical DEPLOYED webhook
+// ALSO handles `payment_intent.succeeded` — that is how Stripe PaymentSheet
+// bookings from the mobile client get created. THIS web-repo copy handles only
+// checkout.session.completed + account.updated + charge.refunded. Do NOT deploy
+// this version over the deployed one without merging the payment_intent.succeeded
+// handler first, or mobile bookings will silently never be created. The live
+// webhook endpoint must subscribe to payment_intent.succeeded too. See STRIPE.md.
+//
 // IMPORTANT: this function must be deployed with JWT verification OFF
 // (Stripe doesn't send a Supabase JWT). See supabase/config.toml.
 //

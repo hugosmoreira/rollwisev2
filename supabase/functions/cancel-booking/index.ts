@@ -16,6 +16,7 @@
 import Stripe from 'npm:stripe@^16.12.0';
 import { createClient } from 'npm:@supabase/supabase-js@^2.45.0';
 import { corsHeaders, json } from '../_shared/cors.ts';
+import { refundChargeByPaymentIntent } from '../_shared/refund.ts';
 
 Deno.serve(async (req) => {
   if (req.method === 'OPTIONS') return new Response('ok', { headers: corsHeaders });
@@ -95,11 +96,9 @@ Deno.serve(async (req) => {
       apiVersion: '2024-06-20',
     });
     try {
-      await stripe.refunds.create({
-        payment_intent: paymentIntent,
-        reverse_transfer: true,
-        refund_application_fee: true,
-      });
+      // Prefers a destination-charge refund; falls back to a plain refund when
+      // the charge has no associated transfer (legacy/seed charges).
+      await refundChargeByPaymentIntent(stripe, paymentIntent);
     } catch (e) {
       return json(
         { error: `Refund failed: ${e instanceof Error ? e.message : String(e)}` },
@@ -107,7 +106,12 @@ Deno.serve(async (req) => {
       );
     }
 
-    // The booking + seat are finalized by the charge.refunded webhook.
+    // Money has moved — mark the booking cancelled now so cancellation never
+    // depends on webhook timing. payment_status is finalized to 'refunded' by the
+    // charge.refunded webhook (which keeps the seat math correct: this cancel
+    // frees the seat once; the webhook is then a no-op for capacity).
+    await admin.from('bookings').update({ status: 'cancelled' }).eq('id', booking.id);
+
     return json({ ok: true, refunded: true });
   } catch (e) {
     return json({ error: e instanceof Error ? e.message : String(e) }, 500);
