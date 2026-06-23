@@ -6,9 +6,11 @@ import { Button } from '@/components/common/Button';
 import { Banner } from '@/components/common/Banner';
 import { LoadingState } from '@/components/common/LoadingState';
 import { SessionCard } from '@/components/domain/SessionCard';
+import { CancelSessionModal } from '@/components/domain/CancelSessionModal';
 import { useAuth } from '@/lib/auth';
 import { useAsync } from '@/hooks/useAsync';
 import { sessionService, type CoachSessionStatus } from '@/services/sessionService';
+import type { Session } from '@/types';
 import { ROUTES } from '@/lib/routes';
 import { cn } from '@/lib/cn';
 import shared from './Coach.module.css';
@@ -35,9 +37,10 @@ const EMPTY = {
 export function ActiveSessionsPage() {
   const { profile } = useAuth();
   const [tab, setTab] = useState<keyof typeof EMPTY>('published');
+  const [cancelTarget, setCancelTarget] = useState<Session | null>(null);
 
   const coachId = profile?.id;
-  const { data, loading, error } = useAsync(
+  const { data, loading, error, reload } = useAsync(
     () =>
       coachId
         ? sessionService.listCoachSessions(coachId, tab as CoachSessionStatus)
@@ -100,10 +103,25 @@ export function ActiveSessionsPage() {
               session={session}
               to={ROUTES.coach.editSession(session.id)}
               ctaLabel="Manage"
+              onCancel={
+                tab === 'published'
+                  ? () => setCancelTarget(session)
+                  : undefined
+              }
             />
           ))}
         </div>
       )}
+
+      <CancelSessionModal
+        session={cancelTarget}
+        open={cancelTarget !== null}
+        onClose={() => setCancelTarget(null)}
+        onCancelled={() => {
+          setCancelTarget(null);
+          reload();
+        }}
+      />
     </div>
   );
 }

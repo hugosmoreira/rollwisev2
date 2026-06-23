@@ -87,7 +87,7 @@ export const profileService = {
     if (error) {
       if (/bucket not found/i.test(error.message)) {
         throw new Error(
-          'Avatar storage is not set up yet. Run supabase/avatars.sql in the Supabase SQL editor.',
+          'Avatar storage is not set up yet. Apply the database migrations (supabase/migrations/) — see supabase/README.md.',
         );
       }
       throw error;

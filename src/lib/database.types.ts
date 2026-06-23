@@ -1,8 +1,8 @@
 /* =================================================================
    RollWise — Supabase database types
    -----------------------------------------------------------------
-   Hand-written to match supabase/schema.sql. Once the Supabase CLI
-   is set up you can regenerate this with:
+   Hand-written to match the schema in supabase/migrations/. Once the
+   Supabase CLI is set up you can regenerate this with:
      supabase gen types typescript --project-id <id> > src/lib/database.types.ts
    ================================================================= */
 
@@ -137,8 +137,10 @@ export interface Database {
   public: {
     Tables: {
       profiles: Table<ProfileRow, 'created_at' | 'rating_average' | 'rating_count' | 'verification' | 'status' | 'stripe_account_id' | 'stripe_charges_enabled'>;
-      // Email-free read-only view for public discovery + name/avatar lookups.
+      // Public coach-discovery view (active coaches only), readable by anon.
       public_profiles: Table<ProfileRow, 'created_at' | 'rating_average' | 'rating_count' | 'verification' | 'status' | 'stripe_account_id' | 'stripe_charges_enabled'>;
+      // Authenticated-only participant lookup (name/avatar for all roles by id).
+      member_profiles: Table<ProfileRow, 'created_at' | 'rating_average' | 'rating_count' | 'verification' | 'status' | 'stripe_account_id' | 'stripe_charges_enabled'>;
       sessions: Table<SessionRow, 'id' | 'created_at' | 'status' | 'spots_remaining' | 'timezone'>;
       bookings: Table<BookingRow, 'id' | 'created_at' | 'status' | 'payment_status' | 'stripe_session_id'>;
       coach_verification_requests: Table<VerificationRequestRow, 'id' | 'submitted_at' | 'status' | 'reason'>;

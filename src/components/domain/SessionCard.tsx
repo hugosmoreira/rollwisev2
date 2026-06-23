@@ -1,4 +1,4 @@
-import { Clock, MapPin, CalendarDays, ArrowRight } from 'lucide-react';
+import { Clock, MapPin, CalendarDays, ArrowRight, Ban } from 'lucide-react';
 import { Card } from '@/components/common/Card';
 import { Badge } from '@/components/common/Badge';
 import { Avatar } from '@/components/common/Avatar';
@@ -24,6 +24,8 @@ interface SessionCardProps {
   /** Link to the class details page. */
   to?: string;
   ctaLabel?: string;
+  /** When set, shows a "Cancel" action (coach session management). */
+  onCancel?: () => void;
   className?: string;
 }
 
@@ -31,6 +33,7 @@ export function SessionCard({
   session,
   to,
   ctaLabel = 'View',
+  onCancel,
   className,
 }: SessionCardProps) {
   const lowSpots = session.spotsRemaining > 0 && session.spotsRemaining <= 2;
@@ -41,6 +44,8 @@ export function SessionCard({
       <div className={styles.badges}>
         <Badge variant="primary">{FORMAT_LABEL[session.format]}</Badge>
         <Badge variant="neutral">{RULESET_LABEL[session.ruleset]}</Badge>
+        {session.status === 'cancelled' && <Badge variant="danger">Cancelled</Badge>}
+        {session.status === 'completed' && <Badge variant="muted">Completed</Badge>}
       </div>
 
       <h3 className={styles.title}>{session.title}</h3>
@@ -84,15 +89,29 @@ export function SessionCard({
               : `${session.spotsRemaining} spot${session.spotsRemaining === 1 ? '' : 's'} left`}
           </div>
         </div>
-        {to && (
-          <Button
-            to={to}
-            size="sm"
-            variant="secondary"
-            rightIcon={<ArrowRight size={16} strokeWidth={2.2} />}
-          >
-            {ctaLabel}
-          </Button>
+        {(onCancel || to) && (
+          <div className={styles.actions}>
+            {onCancel && (
+              <Button
+                size="sm"
+                variant="ghost"
+                onClick={onCancel}
+                leftIcon={<Ban size={15} strokeWidth={2.2} />}
+              >
+                Cancel
+              </Button>
+            )}
+            {to && (
+              <Button
+                to={to}
+                size="sm"
+                variant="secondary"
+                rightIcon={<ArrowRight size={16} strokeWidth={2.2} />}
+              >
+                {ctaLabel}
+              </Button>
+            )}
+          </div>
         )}
       </div>
     </Card>

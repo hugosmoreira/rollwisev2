@@ -1,0 +1,15 @@
+# Netlify build + SPA configuration for the RollWise web app (Vite + React).
+
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "20"
+
+# Single-page app fallback: the app uses BrowserRouter, so every client-side
+# route (and a hard refresh on one) must be served index.html instead of 404ing.
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200

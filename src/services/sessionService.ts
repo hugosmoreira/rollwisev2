@@ -6,7 +6,7 @@ import type { Ruleset, Session, SessionFormat, SkillLevel } from '@/types';
 import type { Database } from '@/lib/database.types';
 import { getSupabase } from '@/lib/supabase';
 import { rowToSession } from './mappers';
-import { notImplemented } from './serviceError';
+import { functionError, notImplemented } from './serviceError';
 
 type SessionsInsert = Database['public']['Tables']['sessions']['Insert'];
 type SessionsUpdate = Database['public']['Tables']['sessions']['Update'];
@@ -185,13 +185,21 @@ export const sessionService = {
     return rowToSession(data);
   },
 
-  /** Cancel a session. */
+  /**
+   * Cancel a session. Routed through the `cancel-session` Edge Function: every
+   * active PAID booking is refunded via Stripe (the charge.refunded webhook then
+   * cancels each booking and frees its seat), unpaid/pending bookings are
+   * cancelled, and only then is the session marked cancelled. The database
+   * refuses a direct cancellation of a session that still has paid bookings, so
+   * this is the only path.
+   */
   async cancelSession(id: string): Promise<void> {
-    const { error } = await getSupabase()
-      .from('sessions')
-      .update({ status: 'cancelled' })
-      .eq('id', id);
-    if (error) throw error;
+    const { data, error } = await getSupabase().functions.invoke<{
+      ok?: boolean;
+      error?: string;
+    }>('cancel-session', { body: { sessionId: id } });
+    if (error) throw new Error(await functionError(error));
+    if (!data?.ok) throw new Error(data?.error ?? 'Could not cancel the session.');
   },
 
   /** Duplicate a session as a new draft. */

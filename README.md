@@ -66,27 +66,28 @@ Only the anon / publishable keys belong in the frontend. Secret keys (Stripe
 secret, webhook signing secret, Resend key, the Supabase service-role key) are
 **Supabase Edge Function secrets** and must never be committed.
 
-### 3. Database (Supabase SQL editor)
+### 3. Database
 
-Run the SQL files in `supabase/`, in this order:
+The schema and all RLS/security hardening live in ordered, idempotent migrations
+under [`supabase/migrations/`](supabase/migrations). Apply them with the Supabase
+CLI:
 
-1. `schema.sql` — tables, enums, the sign-up trigger, and Row-Level Security
-2. `hardening.sql` — lock down user role changes
-3. `security.sql` — lock privileged profile/booking columns from end-users
-4. `public-profiles.sql` — an email-free public view for coach discovery
-5. `stripe.sql` — payment columns + a booking idempotency index
-6. `spots.sql` — capacity management (atomic seat claim + sync trigger)
-7. `avatars.sql` — public avatar storage bucket
-8. `verification-proofs.sql` — private storage bucket for verification documents
-9. `timezone.sql` — per-session timezone
+```bash
+supabase link --project-ref <your-project-ref>
+supabase db push
+```
+
+…or paste each migration into the **SQL editor** in filename order (the numeric
+prefix is the order). See [`supabase/README.md`](supabase/README.md) for what each
+migration does and notes for an already-provisioned database.
 
 ### 4. Edge Functions, Stripe, and email
 
 See [`supabase/STRIPE.md`](supabase/STRIPE.md) and
 [`supabase/EMAIL.md`](supabase/EMAIL.md) for full instructions. In summary:
 
-- Deploy the functions: `create-checkout`, `stripe-connect`, and `stripe-webhook`
-  (the webhook with `--no-verify-jwt`).
+- Deploy the functions: `create-checkout`, `stripe-connect`, `cancel-booking`,
+  `cancel-session`, and `stripe-webhook` (the webhook with `--no-verify-jwt`).
 - Set the function secrets: `STRIPE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET`,
   `APP_URL`, `PLATFORM_FEE_PERCENT`, and (for email) `RESEND_API_KEY`,
   `EMAIL_FROM`, `APP_TIMEZONE`.
@@ -116,8 +117,9 @@ src/
   styles/       design tokens + dark/light themes
   types/        domain model types
 supabase/
-  schema.sql + migrations (see above)
-  functions/    Edge Functions: create-checkout, stripe-webhook, stripe-connect
+  migrations/   ordered SQL: base schema + RLS/security hardening
+  functions/    Edge Functions: create-checkout, stripe-webhook, stripe-connect,
+                cancel-booking, cancel-session
 ```
 
 ## Project principles

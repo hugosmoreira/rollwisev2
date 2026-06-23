@@ -7,7 +7,7 @@ import type { Booking, BookingStatus, TrainingHistoryEntry } from '@/types';
 import type { Database } from '@/lib/database.types';
 import { getSupabase } from '@/lib/supabase';
 import { rowToBooking, rowToTrainingHistory } from './mappers';
-import { notImplemented } from './serviceError';
+import { functionError, notImplemented } from './serviceError';
 
 type BookingsInsert = Database['public']['Tables']['bookings']['Insert'];
 type SessionLite = {
@@ -53,7 +53,7 @@ async function profileLiteMap(ids: string[]): Promise<Map<string, ProfileLite>> 
   const unique = [...new Set(ids)].filter(Boolean);
   if (unique.length === 0) return new Map();
   const { data } = await getSupabase()
-    .from('public_profiles')
+    .from('member_profiles')
     .select('id, full_name, avatar_url')
     .in('id', unique);
   const map = new Map<string, ProfileLite>();
@@ -187,13 +187,19 @@ export const bookingService = {
     if (error) throw error;
   },
 
-  /** Cancel a booking. */
+  /**
+   * Cancel a booking. Routed through the `cancel-booking` Edge Function: a PAID
+   * booking is refunded via Stripe (the charge.refunded webhook then frees the
+   * seat), and the database refuses a direct paid-row cancellation. Unpaid /
+   * pending bookings are cancelled by the function too.
+   */
   async cancelBooking(id: string): Promise<void> {
-    const { error } = await getSupabase()
-      .from('bookings')
-      .update({ status: 'cancelled' })
-      .eq('id', id);
-    if (error) throw error;
+    const { data, error } = await getSupabase().functions.invoke<{
+      ok?: boolean;
+      error?: string;
+    }>('cancel-booking', { body: { bookingId: id } });
+    if (error) throw new Error(await functionError(error));
+    if (!data?.ok) throw new Error(data?.error ?? 'Could not cancel the booking.');
   },
 
   /** A student's completed-session history with coach notes. */

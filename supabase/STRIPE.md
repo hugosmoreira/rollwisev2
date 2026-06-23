@@ -15,11 +15,24 @@ The functions:
   `account.updated` (coach onboarding status) and `charge.refunded` (cancels the
   booking and frees the seat).
 - `stripe-connect` — onboards a coach's Stripe **Express** account for payouts.
+- `cancel-booking` — cancels a booking for one of its participants. A **paid**
+  booking is **refunded through Stripe** (the `charge.refunded` webhook then frees
+  the seat); unpaid/pending bookings are cancelled directly. The database blocks
+  participants from cancelling a paid row directly, so this is the only path.
+- `cancel-session` — the coach-side analogue, run when a **coach (or admin)
+  cancels a whole session**. It authorizes the caller, **refunds every active
+  paid booking** on the session through Stripe (each `charge.refunded` webhook
+  then cancels that booking and frees its seat), cancels unpaid/pending bookings,
+  and only then marks the session cancelled. If any refund fails, the session is
+  left active so a cancelled session never strands a paid student. The database
+  blocks a coach from flipping a session with paid bookings to `cancelled`
+  directly, so this is the only path.
 
 ## 0. One-time: database
 
-Run the SQL files in the Supabase SQL editor (see the project README for the full
-ordered list). The payment-related ones are `stripe.sql` and `spots.sql`.
+Apply the database migrations in [`supabase/migrations/`](./migrations) — see the
+[Supabase README](./README.md) (`supabase db push`, or run them in filename order
+in the SQL editor). The payment-related ones are `…_stripe.sql` and `…_spots.sql`.
 
 ## 1. Install + link the Supabase CLI
 
@@ -48,6 +61,8 @@ supabase secrets set PLATFORM_FEE_PERCENT=20      # your take rate (%)
 ```bash
 supabase functions deploy create-checkout
 supabase functions deploy stripe-connect
+supabase functions deploy cancel-booking
+supabase functions deploy cancel-session
 # The webhook has no Supabase JWT (Stripe calls it directly):
 supabase functions deploy stripe-webhook --no-verify-jwt
 ```
@@ -81,8 +96,15 @@ you can use the prefilled test data. When onboarding completes, the
 3. You return to **My Bookings** showing **Confirmed / Paid**; the session's spots
    drop by one; the coach's **Earnings** shows the **net** amount (after your fee);
    and admin **Payments** updates.
-4. To test refunds: refund the payment in the Stripe dashboard → the booking flips
-   to **Cancelled / Refunded** and the seat is freed.
+4. To test refunds: either **cancel the paid booking in the app** (calls
+   `cancel-booking`, which refunds via Stripe) or refund the payment in the Stripe
+   dashboard. Either way the `charge.refunded` webhook flips the booking to
+   **Cancelled / Refunded** and frees the seat.
+5. To test a **coach cancelling a whole session** with paid students: as the
+   coach, cancel the session (calls `cancel-session`). Every paid booking is
+   refunded via Stripe, each `charge.refunded` webhook flips that booking to
+   **Cancelled / Refunded**, the session shows **Cancelled**, and each student's
+   **My Bookings** reflects the refund.
 
 ## Notes
 

@@ -60,6 +60,12 @@
   border-top: 1px solid var(--rw-border);
 }
 
+.actions {
+  display: flex;
+  align-items: center;
+  gap: var(--rw-space-2);
+}
+
 .price {
   font-family: var(--rw-font-display);
   font-size: var(--rw-text-xl);

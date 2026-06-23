@@ -9,6 +9,7 @@
 import type { Payment, PaymentStatus } from '@/types';
 import { getSupabase } from '@/lib/supabase';
 import { rowToPayment } from './mappers';
+import { functionError } from './serviceError';
 
 export interface PaymentFilters {
   coachId?: string;
@@ -31,20 +32,6 @@ export interface PlatformPayments {
 
 export interface RedirectUrl {
   url: string;
-}
-
-/** Pull a useful message out of a Supabase FunctionsHttpError, if present. */
-async function functionError(error: unknown): Promise<string> {
-  const ctx = (error as { context?: Response })?.context;
-  if (ctx && typeof ctx.json === 'function') {
-    try {
-      const body = await ctx.json();
-      if (body?.error) return String(body.error);
-    } catch {
-      /* fall through */
-    }
-  }
-  return error instanceof Error ? error.message : 'Request failed.';
 }
 
 function isThisMonth(iso: string): boolean {

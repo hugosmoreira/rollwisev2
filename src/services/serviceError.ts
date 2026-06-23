@@ -24,3 +24,21 @@ export class NotImplementedError extends Error {
 export function notImplemented(method: string): never {
   throw new NotImplementedError(method);
 }
+
+/**
+ * Pull a useful message out of a Supabase Edge Function error. A
+ * `FunctionsHttpError` carries the function's JSON `{ error }` body on its
+ * `context` (a `Response`); fall back to the raw error message otherwise.
+ */
+export async function functionError(error: unknown): Promise<string> {
+  const ctx = (error as { context?: Response })?.context;
+  if (ctx && typeof ctx.json === 'function') {
+    try {
+      const body = await ctx.json();
+      if (body?.error) return String(body.error);
+    } catch {
+      /* fall through */
+    }
+  }
+  return error instanceof Error ? error.message : 'Request failed.';
+}

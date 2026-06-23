@@ -17,6 +17,8 @@ export type Ruleset = 'gi' | 'no-gi' | 'both';
 
 export type SessionFormat = 'private' | 'group';
 
+export type SessionStatus = 'draft' | 'published' | 'cancelled' | 'completed';
+
 export type SkillLevel = 'beginner' | 'intermediate' | 'advanced' | 'all-levels';
 
 export type BookingStatus = 'pending' | 'confirmed' | 'completed' | 'cancelled';
@@ -81,7 +83,7 @@ export interface Session {
   gymName?: string | null;
   city: string;
   timezone: string;
-  status: 'draft' | 'published' | 'cancelled' | 'completed';
+  status: SessionStatus;
 }
 
 /** A student's booking of a session (maps to `bookings`). */

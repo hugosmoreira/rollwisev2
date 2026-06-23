@@ -1,5 +1,6 @@
 import { useEffect, useState, type FormEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Ban } from 'lucide-react';
 import { Input } from '@/components/common/Input';
 import { Textarea } from '@/components/common/Textarea';
 import { Select } from '@/components/common/Select';
@@ -8,11 +9,12 @@ import { TagInput } from '@/components/common/TagInput';
 import { Button } from '@/components/common/Button';
 import { Banner } from '@/components/common/Banner';
 import { LoadingState } from '@/components/common/LoadingState';
+import { CancelSessionModal } from '@/components/domain/CancelSessionModal';
 import {
   sessionService,
   type SessionInput,
 } from '@/services/sessionService';
-import type { Ruleset, SessionFormat, SkillLevel } from '@/types';
+import type { Ruleset, SessionFormat, SessionStatus, SkillLevel } from '@/types';
 import { isFilled } from '@/lib/validation';
 import { ROUTES } from '@/lib/routes';
 import shared from './Coach.module.css';
@@ -91,6 +93,11 @@ export function SessionForm({ submitLabel, notice, sessionId }: SessionFormProps
   const [loadingSession, setLoadingSession] = useState(isEdit);
   const [loadError, setLoadError] = useState<string | null>(null);
 
+  // Session cancellation (edit mode). Only a published session is cancellable;
+  // the dialog routes through cancelSession, which refunds any paid bookings.
+  const [status, setStatus] = useState<SessionStatus | null>(null);
+  const [confirmOpen, setConfirmOpen] = useState(false);
+
   // In edit mode, load the session once and prefill every field.
   useEffect(() => {
     if (!sessionId) return;
@@ -119,6 +126,7 @@ export function SessionForm({ submitLabel, notice, sessionId }: SessionFormProps
         setCapacity(String(s.capacity));
         setGymName(s.gymName ?? '');
         setCity(s.city);
+        setStatus(s.status);
       })
       .catch((e) => {
         if (!cancelled) {
@@ -358,6 +366,18 @@ export function SessionForm({ submitLabel, notice, sessionId }: SessionFormProps
       </div>
 
       <div className={shared.formActions}>
+        {isEdit && status === 'published' && (
+          <Button
+            type="button"
+            variant="danger"
+            onClick={() => setConfirmOpen(true)}
+            disabled={pending}
+            leftIcon={<Ban size={16} strokeWidth={2.2} />}
+            style={{ marginRight: 'auto' }}
+          >
+            Cancel session
+          </Button>
+        )}
         <Button
           type="button"
           variant="secondary"
@@ -370,6 +390,13 @@ export function SessionForm({ submitLabel, notice, sessionId }: SessionFormProps
           {submitLabel}
         </Button>
       </div>
+
+      <CancelSessionModal
+        session={sessionId ? { id: sessionId, title } : null}
+        open={confirmOpen}
+        onClose={() => setConfirmOpen(false)}
+        onCancelled={() => navigate(ROUTES.coach.activeSessions)}
+      />
     </form>
   );
 }

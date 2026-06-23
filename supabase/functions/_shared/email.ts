@@ -47,6 +47,18 @@ function formatDuration(mins: number): string {
   return Number.isInteger(hrs) ? `${hrs} hr` : `${hrs.toFixed(1)} hr`;
 }
 
+// Escape values before interpolating them into the email HTML. Several fields
+// (student/coach names, session title, gym/city) are user-controlled and reach
+// this template via the webhook, so they must never be treated as raw markup.
+function esc(s: string): string {
+  return String(s)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
 function bookingHtml(d: BookingEmailData): string {
   const appUrl = Deno.env.get('APP_URL') || 'http://localhost:5173';
   const when = formatWhen(d.startsAt, d.timezone || 'UTC');
@@ -59,7 +71,7 @@ function bookingHtml(d: BookingEmailData): string {
   const row = (label: string, value: string) => `
     <tr>
       <td style="padding:10px 0;color:#8a8a93;font-size:13px;">${label}</td>
-      <td style="padding:10px 0;color:#16161a;font-size:14px;font-weight:600;text-align:right;">${value}</td>
+      <td style="padding:10px 0;color:#16161a;font-size:14px;font-weight:600;text-align:right;">${esc(value)}</td>
     </tr>`;
 
   return `<!doctype html>
@@ -77,14 +89,14 @@ function bookingHtml(d: BookingEmailData): string {
             <td style="padding:32px 28px 8px;">
               <h1 style="margin:0 0 6px;color:#16161a;font-size:22px;">You're booked</h1>
               <p style="margin:0;color:#5b5b63;font-size:15px;line-height:1.5;">
-                Hi ${d.studentName}, your payment of <strong>${amount}</strong> went through and your session is confirmed. Here are the details:
+                Hi ${esc(d.studentName)}, your payment of <strong>${amount}</strong> went through and your session is confirmed. Here are the details:
               </p>
             </td>
           </tr>
           <tr>
             <td style="padding:20px 28px 8px;">
               <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#f6f6f7;border-radius:12px;padding:8px 18px;">
-                <tr><td colspan="2" style="padding:12px 0 4px;color:#16161a;font-size:16px;font-weight:700;">${d.sessionTitle}</td></tr>
+                <tr><td colspan="2" style="padding:12px 0 4px;color:#16161a;font-size:16px;font-weight:700;">${esc(d.sessionTitle)}</td></tr>
                 ${row('When', when)}
                 ${row('Duration', duration)}
                 ${row('Location', d.location)}

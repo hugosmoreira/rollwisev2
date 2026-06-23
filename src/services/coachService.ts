@@ -60,6 +60,33 @@ export interface CoachStudentSummary {
   lastSessionAt?: string | null;
 }
 
+/** Accepted verification-proof types, mapped to a canonical file extension. */
+const PROOF_TYPES: Record<string, string> = {
+  'application/pdf': 'pdf',
+  'image/jpeg': 'jpg',
+  'image/png': 'png',
+  'image/webp': 'webp',
+};
+const MAX_PROOF_BYTES = 8 * 1024 * 1024; // 8 MiB
+
+/**
+ * Detect a proof's type from its leading bytes (magic numbers) rather than the
+ * caller-supplied filename/MIME, which can be spoofed. Returns the canonical
+ * MIME type, or null if it isn't an accepted document. (Client-side, so it's
+ * defense-in-depth + a clear error — the real boundaries are the bucket's
+ * server-side allow-list and serving proofs as downloads.)
+ */
+async function detectProofType(file: File): Promise<string | null> {
+  const buf = new Uint8Array(await file.slice(0, 16).arrayBuffer());
+  const at = (sig: number[], offset = 0) => sig.every((b, i) => buf[offset + i] === b);
+  if (at([0x25, 0x50, 0x44, 0x46])) return 'application/pdf'; // "%PDF"
+  if (at([0x89, 0x50, 0x4e, 0x47])) return 'image/png'; // PNG
+  if (at([0xff, 0xd8, 0xff])) return 'image/jpeg'; // JPEG
+  if (at([0x52, 0x49, 0x46, 0x46]) && at([0x57, 0x45, 0x42, 0x50], 8))
+    return 'image/webp'; // "RIFF"…"WEBP"
+  return null;
+}
+
 export const coachService = {
   /** Search coaches for discovery. */
   async listCoaches(filters: CoachFilters = {}): Promise<Coach[]> {
@@ -183,20 +210,24 @@ export const coachService = {
       data: { user },
     } = await sb.auth.getUser();
     if (!user) throw new Error('You must be signed in to upload a document.');
-    const ext =
-      (file.name.split('.').pop() ?? 'pdf').toLowerCase().replace(/[^a-z0-9]/g, '') ||
-      'pdf';
+    if (file.size > MAX_PROOF_BYTES) {
+      throw new Error('Document must be 8MB or smaller.');
+    }
+    // Validate by content, not by the caller-supplied name/MIME, and derive the
+    // extension + stored content-type from what the bytes actually are.
+    const contentType = await detectProofType(file);
+    if (!contentType) {
+      throw new Error('Unsupported file. Upload a PDF, JPG, PNG, or WebP document.');
+    }
+    const ext = PROOF_TYPES[contentType];
     const path = `${user.id}/${Date.now()}.${ext}`;
     const { error } = await sb.storage
       .from('verification-proofs')
-      .upload(path, file, {
-        upsert: true,
-        contentType: file.type || 'application/octet-stream',
-      });
+      .upload(path, file, { upsert: true, contentType });
     if (error) {
       if (/bucket not found/i.test(error.message)) {
         throw new Error(
-          'Verification storage is not set up yet. Run supabase/verification-proofs.sql.',
+          'Verification storage is not set up yet. Apply the database migrations (supabase/migrations/) — see supabase/README.md.',
         );
       }
       throw error;
@@ -204,11 +235,16 @@ export const coachService = {
     return path;
   },
 
-  /** A short-lived signed URL to view a stored proof (admin/owner only). */
+  /**
+   * A short-lived signed URL to a stored proof (admin/owner only). Served with
+   * `download: true` (Content-Disposition: attachment) so the file is downloaded
+   * rather than rendered inline — a coach-uploaded HTML/SVG payload can't execute
+   * in the admin's browser origin when the proof is opened for review.
+   */
   async getVerificationProofUrl(path: string): Promise<string> {
     const { data, error } = await getSupabase()
       .storage.from('verification-proofs')
-      .createSignedUrl(path, 300);
+      .createSignedUrl(path, 300, { download: true });
     if (error) throw error;
     return data.signedUrl;
   },
@@ -248,7 +284,7 @@ export const coachService = {
     const ids = [...byStudent.keys()];
     if (ids.length === 0) return [];
     const { data: profiles } = await sb
-      .from('public_profiles')
+      .from('member_profiles')
       .select('id, full_name, avatar_url')
       .in('id', ids);
     const nameMap = new Map(
