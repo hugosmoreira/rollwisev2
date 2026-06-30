@@ -13,3 +13,30 @@
   from = "/*"
   to = "/index.html"
   status = 200
+
+# ---------------------------------------------------------------------
+# Security headers (applied to every response).
+#
+# The Content-Security-Policy is scoped to exactly what the app loads:
+#   - script: self + a sha256 hash of the inline theme-bootstrap script in
+#     index.html. If you EDIT that inline script, recompute the hash:
+#       node -e "const fs=require('fs');const m=fs.readFileSync('index.html','utf8').match(/<script>([\s\S]*?)<\/script>/);console.log('sha256-'+require('crypto').createHash('sha256').update(m[1]).digest('base64'))"
+#   - style: self + 'unsafe-inline' (CSS-in-JS / style attributes) + Google Fonts CSS
+#   - font: self + Google Fonts files
+#   - img: self + data/blob (avatar previews) + the Supabase storage origin
+#   - connect: self + the Supabase REST/Auth/Functions origin + Realtime (wss)
+# Stripe Checkout is a full-page redirect (not embedded), so no Stripe origins
+# are needed here. If you later add Stripe.js, add https://js.stripe.com to
+# script-src and https://api.stripe.com to connect-src.
+#
+# Tip: to trial without risk, temporarily rename the header to
+# "Content-Security-Policy-Report-Only" and watch the browser console.
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=()"
+    Strict-Transport-Security = "max-age=63072000; includeSubDomains; preload"
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'sha256-Kl2rVb4x6Nm/rop0I6AFw719/Qcjz8M2GoIiZPUNdh0='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob: https://ikwwcacirwpkdyjwfqei.supabase.co; connect-src 'self' https://ikwwcacirwpkdyjwfqei.supabase.co wss://ikwwcacirwpkdyjwfqei.supabase.co; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; object-src 'none'"

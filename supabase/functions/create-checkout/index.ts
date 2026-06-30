@@ -10,8 +10,14 @@
 import Stripe from 'npm:stripe@^16.12.0';
 import { createClient } from 'npm:@supabase/supabase-js@^2.45.0';
 
+// CORS: pin browser calls to the app origin as defense-in-depth. The REAL
+// security boundary is the Supabase JWT check below (a cross-origin site can't
+// read the user's token), so this is hygiene, not the gate. Falls back to '*'
+// when APP_URL is unset so nothing breaks before it's configured; native mobile
+// ignores CORS entirely.
 const corsHeaders = {
-  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Origin': Deno.env.get('APP_URL') ?? '*',
+  Vary: 'Origin',
   'Access-Control-Allow-Headers':
     'authorization, x-client-info, apikey, content-type',
   'Access-Control-Allow-Methods': 'POST, OPTIONS',

@@ -37,3 +37,4 @@ supabase/.temp/
 # Internal working docs (not part of the app; contain audit details / test creds)
 docs-launch-audit.md
 docs-manual-test.md
+SECREPORT.md

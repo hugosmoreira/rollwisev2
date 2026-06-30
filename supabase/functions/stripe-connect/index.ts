@@ -15,8 +15,13 @@
 import Stripe from 'npm:stripe@^16.12.0';
 import { createClient } from 'npm:@supabase/supabase-js@^2.45.0';
 
+// CORS: pin browser calls to the app origin (defense-in-depth; the JWT check is
+// the real boundary). Falls back to '*' if APP_URL is unset. NOTE: this function
+// is shared with the mobile app, but mobile invokes it over native HTTP which
+// ignores CORS, so pinning the web origin here is safe for both clients.
 const corsHeaders = {
-  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Origin': Deno.env.get('APP_URL') ?? '*',
+  Vary: 'Origin',
   'Access-Control-Allow-Headers':
     'authorization, x-client-info, apikey, content-type',
   'Access-Control-Allow-Methods': 'POST, OPTIONS',
